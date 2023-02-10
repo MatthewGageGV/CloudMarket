@@ -1,0 +1,19 @@
+#This kv file manages the different screens/menus
+
+#:include homescreen.kv
+#:include buyscreen.kv
+#:include sellscreen.kv
+
+GridLayout:
+    cols: 1
+    ScreenManager:
+        id: screen_manager
+        HomeScreen:
+            name: "home_screen"
+            id: home_screen
+        BuyScreen:
+            name: "buy_screen"
+            id: buy_screen
+        SellScreen:
+            name: "sell_screen"
+            id: sell_screen

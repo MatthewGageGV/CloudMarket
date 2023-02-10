@@ -1,0 +1,39 @@
+#This file contains the layout/design for the buy screen
+
+<BuyScreen>:
+    FloatLayout:
+        Button:
+            pos_hint: {'x':.85, 'y':.04}
+            size_hint: .1, .075
+            text:
+                "Cancel"
+            on_release:
+                app.change_screen("home_screen")
+        Label:
+            pos_hint: {'x':.075, 'y':.9}
+            size_hint: .1, .075
+            text: "Buy"
+        GridLayout:
+            rows: 1
+            pos_hint: {"top": 1, "left": 1}
+            size_hint: 1, .25
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Name"
+                id: title_label
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Price"
+                id: title_label
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Time Left"
+                id: title_label
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Buy Now"
+                id: title_label

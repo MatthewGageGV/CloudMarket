@@ -1,0 +1,59 @@
+# This file contains the layout/design for the sell screen
+
+<SellScreen>:
+    FloatLayout:
+        Button:
+            pos_hint: {'x':.85, 'y':.04}
+            size_hint: .1, .075
+            text:
+                "Cancel"
+            on_release:
+                app.change_screen("home_screen")
+        Label:
+            pos_hint: {'x':.075, 'y':.9}
+            size_hint: .1, .075
+            text: "Sell"
+        Label:
+            pos_hint: {'x':.075, 'y':.8}
+            size_hint: .1, .075
+            text: "Name:"
+        TextInput:
+            text: 'Enter Name'
+            size_hint_y: None
+            height: 30
+            size_hint_x: None
+            width: 200
+            pos_hint: {'x':.2, 'y':.8}
+            multiline: False
+        Label:
+            pos_hint: {'x':.075, 'y':.7}
+            size_hint: .1, .075
+            text: "Initial Price:"
+        TextInput:
+            text: 'Enter Initial Price'
+            size_hint_y: None
+            height: 30
+            size_hint_x: None
+            width: 200
+            pos_hint: {'x':.2, 'y':.7}
+            multiline: False
+        Label:
+            pos_hint: {'x':.075, 'y':.6}
+            size_hint: .1, .075
+            text: "Buy Now Price:"
+        TextInput:
+            text: 'Enter Buy Now Price'
+            size_hint_y: None
+            height: 30
+            size_hint_x: None
+            width: 200
+            pos_hint: {'x':.2, 'y':.6}
+            multiline: False
+        Label:
+            pos_hint: {'x':.075, 'y':.5}
+            size_hint: .1, .075
+            text: "Set Time:"
+        Label:
+            pos_hint: {'x':.075, 'y':.4}
+            size_hint: .1, .075
+            text: "Category:"

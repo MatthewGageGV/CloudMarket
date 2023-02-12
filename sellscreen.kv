@@ -2,6 +2,11 @@
 
 <SellScreen>:
     FloatLayout:
+        Image:
+            source: "Background.png"
+            pos_hint: {"bottom": 1, "left": 1}
+            size_hint: 1, 1.25
+            id: logo
         Button:
             pos_hint: {'x':.85, 'y':.04}
             size_hint: .1, .075
@@ -9,6 +14,13 @@
                 "Cancel"
             on_release:
                 app.change_screen("home_screen")
+        Button:
+            pos_hint: {'x':.3, 'y':.04}
+            size_hint: .4, .075
+            text:
+                "Submit"
+            on_release:
+                app.submit_item(name_input.text, time_input.text, min_input.text, buy_input.text)
         Label:
             pos_hint: {'x':.075, 'y':.9}
             size_hint: .1, .075
@@ -18,42 +30,87 @@
             size_hint: .1, .075
             text: "Name:"
         TextInput:
-            text: 'Enter Name'
+            hint_text: 'Enter Name'
             size_hint_y: None
             height: 30
             size_hint_x: None
             width: 200
             pos_hint: {'x':.2, 'y':.8}
             multiline: False
+            id: name_input
         Label:
             pos_hint: {'x':.075, 'y':.7}
             size_hint: .1, .075
-            text: "Initial Price:"
+            text: "Minimum Bid:"
         TextInput:
-            text: 'Enter Initial Price'
+            hint_text: 'Enter Minimum Bid'
             size_hint_y: None
             height: 30
             size_hint_x: None
             width: 200
             pos_hint: {'x':.2, 'y':.7}
             multiline: False
+            id: min_input
         Label:
             pos_hint: {'x':.075, 'y':.6}
             size_hint: .1, .075
             text: "Buy Now Price:"
         TextInput:
-            text: 'Enter Buy Now Price'
+            hint_text: 'Enter Instant Buy Price'
             size_hint_y: None
             height: 30
             size_hint_x: None
             width: 200
             pos_hint: {'x':.2, 'y':.6}
             multiline: False
+            id: buy_input
         Label:
             pos_hint: {'x':.075, 'y':.5}
             size_hint: .1, .075
             text: "Set Time:"
+        TextInput:
+            hint_text: 'Enter Bid Time Length'
+            size_hint_y: None
+            height: 30
+            size_hint_x: None
+            width: 200
+            pos_hint: {'x':.2, 'y':.5}
+            multiline: False
+            id: time_input
         Label:
             pos_hint: {'x':.075, 'y':.4}
             size_hint: .1, .075
             text: "Category:"
+        Button:
+            text: 'Select Category'
+            size_hint_y: None
+            pos_hint: {'x':.2, 'y':.4}
+            height: 30
+            size_hint_x: None
+            width: 200
+            on_release:
+                dropdown.open(self)
+            id: select_category
+            DropDown:
+                id: dropdown
+                Button:
+                    text: 'Option 1'
+                    size_hint_y: None
+                    height: 30
+                    size_hint_x: None
+                    width: 200
+                    on_release: dropdown.select('Option 1')
+                Button:
+                    text: 'Option 2'
+                    size_hint_y: None
+                    height: 30
+                    size_hint_x: None
+                    width: 200
+                    on_release: dropdown.select('Option 2')
+                Button:
+                    text: 'Option 3'
+                    size_hint_y: None
+                    height: 30
+                    size_hint_x: None
+                    width: 200
+                    on_release: dropdown.select('Option 3')

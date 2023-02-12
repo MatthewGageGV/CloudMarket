@@ -1,7 +1,35 @@
 #This file contains the layout/design for the buy screen
 
+<Popups>:
+    Label:
+        text: "Enter bid amount:"
+        size_hint: 0.2, 0.2
+        pos_hint: {"x":.41, "y":0.75}
+    TextInput:
+        size_hint_y: None
+        hint_text: "00.00"
+        height: 30
+        size_hint_x: None
+        width: 200
+        pos_hint: {'x':.13, 'y':.4}
+        multiline: False
+        id: bid_input
+    Button:
+        text: "Submit"
+        # set size of the button
+        size_hint: .5, 0.2
+        # set position of the button
+        pos_hint: {"x":.25, "y":0.1}
+        on_release:
+            app.submit_bid(bid_input.text)
+            app.update(self)
 <BuyScreen>:
     FloatLayout:
+        Image:
+            source: "Background.png"
+            pos_hint: {"bottom": 1, "left": 1}
+            size_hint: 1, 1.25
+            id: logo
         Button:
             pos_hint: {'x':.85, 'y':.04}
             size_hint: .1, .075
@@ -9,23 +37,176 @@
                 "Cancel"
             on_release:
                 app.change_screen("home_screen")
-        Label:
-            pos_hint: {'x':.075, 'y':.9}
-            size_hint: .1, .075
+        Button:
+            pos_hint: {'x':.645, 'y':.79}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Bid"
+            id: bid_button_1
+            on_release: app.show_popup(0)
+        Button:
+            pos_hint: {'x':.875, 'y':.79}
+            size_hint: None, None
+            height: 25
+            width: 50
             text: "Buy"
+            id: buy_button_1
+            on_release:
+                app.buy_item(0)
+                app.update(self)
+        Button:
+            pos_hint: {'x':.645, 'y':.7125}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Bid"
+            id: bid_button_2
+            on_release: app.show_popup(1)
+        Button:
+            pos_hint: {'x':.875, 'y':.7125}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Buy"
+            id: buy_button_2
+            on_release:
+                app.buy_item(1)
+                app.update(self)
+        Button:
+            pos_hint: {'x':.645, 'y':.635}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Bid"
+            id: bid_button_3
+            on_release: app.show_popup(2)
+        Button:
+            pos_hint: {'x':.875, 'y':.635}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Buy"
+            id: buy_button_3
+            on_release:
+                app.buy_item(2)
+                app.update(self)
+        Button:
+            pos_hint: {'x':.645, 'y':.5575}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Bid"
+            id: bid_button_4
+            on_release: app.show_popup(3)
+        Button:
+            pos_hint: {'x':.875, 'y':.5575}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Buy"
+            id: buy_button_4
+            on_release:
+                app.buy_item(3)
+                app.update(self)
+        Button:
+            pos_hint: {'x':.645, 'y':.48}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Bid"
+            id: bid_button_5
+            on_release: app.show_popup(4)
+        Button:
+            pos_hint: {'x':.875, 'y':.48}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Buy"
+            id: buy_button_5
+            on_release:
+                app.buy_item(4)
+                app.update(self)
+        Button:
+            pos_hint: {'x':.645, 'y':.4025}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Bid"
+            id: bid_button_6
+            on_release: app.show_popup(5)
+        Button:
+            pos_hint: {'x':.875, 'y':.4025}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Buy"
+            id: buy_button_6
+            on_release:
+                app.buy_item(5)
+                app.update(self)
+        Button:
+            pos_hint: {'x':.645, 'y':.325}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Bid"
+            id: bid_button_7
+            on_release: app.show_popup(6)
+        Button:
+            pos_hint: {'x':.875, 'y':.325}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Buy"
+            id: buy_button_7
+            on_release:
+                app.buy_item(6)
+                app.update(self)
+        Button:
+            pos_hint: {'x':.645, 'y':.2475}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Bid"
+            id: bid_button_8
+            on_release: app.show_popup(7)
+        Button:
+            pos_hint: {'x':.875, 'y':.2475}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Buy"
+            id: buy_button_8
+            on_release:
+                app.buy_item(7)
+                app.update(self)
+        Button:
+            pos_hint: {'x':.645, 'y':.17}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Bid"
+            id: bid_button_9
+            on_release: app.show_popup(8)
+        Button:
+            pos_hint: {'x':.875, 'y':.17}
+            size_hint: None, None
+            height: 25
+            width: 50
+            text: "Buy"
+            id: buy_button_9
+            on_release:
+                app.buy_item(8)
+                app.update(self)
         GridLayout:
             rows: 1
             pos_hint: {"top": 1, "left": 1}
-            size_hint: 1, .25
+            size_hint: .95, .25
             Label:
                 pos_hint: {"top": 1, "left": 1}
                 size_hint: 1, .1
                 text: "Name"
-                id: title_label
-            Label:
-                pos_hint: {"top": 1, "left": 1}
-                size_hint: 1, .1
-                text: "Price"
                 id: title_label
             Label:
                 pos_hint: {"top": 1, "left": 1}
@@ -35,5 +216,214 @@
             Label:
                 pos_hint: {"top": 1, "left": 1}
                 size_hint: 1, .1
+                text: "Current Bid"
+                id: title_label
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
                 text: "Buy Now"
                 id: title_label
+        Label:
+            pos_hint: {'x':.075, 'y':.04}
+            size_hint: .1, .075
+            text: "Balance: "
+            id: balance_label
+        Label:
+            pos_hint: {'x':.135, 'y':.0375}
+            size_hint: .1, .075
+            text: root.balance_to_string()
+            id: balance_label
+        GridLayout:
+            rows: 9
+            cols: 4
+            pos_hint: {"top": .85, "left": 1}
+            size_hint: .95, .7
+            #Item 1
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Name"
+                id: item_name_1
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Time Left"
+                id: item_time_1
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Bid"
+                id: item_price_1
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Buy Now"
+                id: item_buy_1
+            #Item 2
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Name"
+                id: item_name_2
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Time Left"
+                id: item_time_2
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Bid"
+                id: item_price_2
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Buy Now"
+                id: item_buy_2
+            #Item 3
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Name"
+                id: item_name_3
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Time Left"
+                id: item_time_3
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Bid"
+                id: item_price_3
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Buy Now"
+                id: item_buy_3
+            #Item 4
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Name"
+                id: item_name_4
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Time Left"
+                id: item_time_4
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Bid"
+                id: item_price_4
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Buy Now"
+                id: item_buy_4
+            #Item 5
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Name"
+                id: item_name_5
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Time Left"
+                id: item_time_5
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Bid"
+                id: item_price_5
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Buy Now"
+                id: item_buy_5
+            #Item 6
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Name"
+                id: item_name_6
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Time Left"
+                id: item_time_6
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Bid"
+                id: item_price_6
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Buy Now"
+                id: item_buy_6
+            #Item 7
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Name"
+                id: item_name_7
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Time Left"
+                id: item_time_7
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Bid"
+                id: item_price_7
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Buy Now"
+                id: item_buy_7
+            #Item 8
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Name"
+                id: item_name_8
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Time Left"
+                id: item_time_8
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Bid"
+                id: item_price_8
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Buy Now"
+                id: item_buy_8
+            #Item 9
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Name"
+                id: item_name_9
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .1
+                text: "Time Left"
+                id: item_time_9
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Bid"
+                id: item_price_9
+            Label:
+                pos_hint: {"top": 1, "left": 1}
+                size_hint: 1, .05
+                text: "Buy Now"
+                id: item_buy_9

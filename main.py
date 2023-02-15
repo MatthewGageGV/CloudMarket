@@ -200,8 +200,19 @@ class CloudMarket(App):
         popupWindow.open()
 
     def submit_bid(self, bid_value):
-        bid_value = Decimal(bid_value)
-        items[self.curr_item].price = bid_value
+        # Reject bid if user cannot afford
+        can_buy = self.check_balance(bid_value)
+        if (can_buy):
+            bid_value = Decimal(bid_value)
+            items[self.curr_item].price = bid_value
+
+    def check_balance(self, bid_value):
+        if (self.balance < Decimal(bid_value)):
+            errorWindow = Popup(title="You can't afford that!!!", size_hint=(None, None), size=(300, 170))
+            errorWindow.open()
+            return False
+        else:
+            return True
 
     def submit_item(self, name, ptime, min_bid, buy_price):
         ptime = int(ptime)
@@ -214,10 +225,14 @@ class CloudMarket(App):
             print(items[i].name)
 
     def buy_item(self, item_num):
-        self.balance = float(self.balance) - float(items[item_num].buy_price)
-        BuyScreen.balance = self.balance
-        self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(self.balance)
-        del items[item_num]
+        # Check if the user can buy items
+        can_buy = self.check_balance(items[item_num].buy_price)
+        # If they can buy
+        if (can_buy):
+            self.balance = float(self.balance) - float(items[item_num].buy_price)
+            BuyScreen.balance = self.balance
+            self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(self.balance)
+            del items[item_num]
 
 # -MAIN---------------------------------------------------------------------------------------------------
 CloudMarket().run()

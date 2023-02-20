@@ -13,9 +13,10 @@ from decimal import Decimal
 
 # User Object Class
 class User:
-    def __init__(self, tempID, tempName):
+    def __init__(self, tempID, tempName, balance):
         self.ID = tempID
         self.name = tempName
+        self.balance = balance
 
 
 # Bid Object Class
@@ -79,6 +80,7 @@ items.append(item5)
 class CloudMarket(App):
     curr_item = -1
     balance = 1000.00
+    default_user = User(1, "John Doe", balance);
 
     # Builds the UI
     def build(self):
@@ -215,14 +217,46 @@ class CloudMarket(App):
             return True
 
     def submit_item(self, name, ptime, min_bid, buy_price):
-        ptime = int(ptime)
-        min_bid = Decimal(min_bid)
-        buy_price = Decimal(buy_price)
-        print(ptime)
-        new_item = Item(name, ptime, min_bid, buy_price)
-        items.append(new_item)
-        for i in range(len(items)):
-            print(items[i].name)
+        if (self.check_string(name, "name") and self.check_string(ptime, "time") and self.check_string(min_bid, "price")
+        and self.check_string(buy_price, "price")):
+            ptime = int(ptime)
+            min_bid = Decimal(min_bid)
+            buy_price = Decimal(buy_price)
+            print(ptime)
+            new_item = Item(name, ptime, min_bid, buy_price)
+            items.append(new_item)
+            for i in range(len(items)):
+                print(items[i].name)
+
+
+    def check_string(self, string, type):
+        if (type == "name"):
+            if (not string.isalpha()):
+                errorWindow = Popup(title="Name cannot contain special characters or numbers", size_hint=(None, None),
+                                    size=(300, 170))
+                errorWindow.open()
+                return False
+            else:
+                return True
+        if (type == "time"):
+            if (not string.isdigit()):
+                errorWindow = Popup(title="Time is represented by integers", size_hint=(None, None),
+                                    size=(300, 170))
+                errorWindow.open()
+                return False
+            else:
+                return True
+        if (type == "price"):
+            if (not string.isdigit()):
+                try:
+                    float(string)
+                except:
+                    errorWindow = Popup(title="Prices cannot contain anything other than numbers", size_hint=(None, None),
+                                        size=(300, 170))
+                    errorWindow.open()
+                    return False
+                else:
+                    return True
 
     def buy_item(self, item_num):
         # Check if the user can buy items

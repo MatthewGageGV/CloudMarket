@@ -206,8 +206,11 @@ class CloudMarket(App):
         can_buy = self.check_balance(bid_value)
         if (can_buy):
             bid_value = Decimal(bid_value)
-            items[self.curr_item].price = bid_value
-
+            if (bid_value > items[self.curr_item].price):
+                items[self.curr_item].price = bid_value
+            else:
+                errorWindow = Popup(title="Bid must be higher than pre-existing bid!", size_hint=(None, None), size=(300, 170))
+                errorWindow.open()
     def check_balance(self, bid_value):
         if (self.balance < Decimal(bid_value)):
             errorWindow = Popup(title="You can't afford that!!!", size_hint=(None, None), size=(300, 170))
@@ -222,11 +225,16 @@ class CloudMarket(App):
             ptime = int(ptime)
             min_bid = Decimal(min_bid)
             buy_price = Decimal(buy_price)
-            print(ptime)
-            new_item = Item(name, ptime, min_bid, buy_price)
-            items.append(new_item)
-            for i in range(len(items)):
-                print(items[i].name)
+            if (min_bid > buy_price):
+                errorWindow = Popup(title="Starting bid must be less than buy price.", size_hint=(None, None),
+                                    size=(300, 170))
+                errorWindow.open()
+            else:
+                print(ptime)
+                new_item = Item(name, ptime, min_bid, buy_price)
+                items.append(new_item)
+                for i in range(len(items)):
+                    print(items[i].name)
 
 
     def check_string(self, string, type):

@@ -255,8 +255,7 @@ class CloudMarket(App):
                                         size=(300, 170))
                     errorWindow.open()
                     return False
-                else:
-                    return True
+        return True
 
     def buy_item(self, item_num):
         # Check if the user can buy items

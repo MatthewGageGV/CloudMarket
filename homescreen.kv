@@ -4,33 +4,34 @@
 <HomeScreen>:
     FloatLayout:
         Image:
-            source: "Background.png"
+            source: "imgs/Background.png"
             pos_hint: {"bottom": 1, "left": 1}
             size_hint: 1, 1.25
             id: logo
         GridLayout:
             rows: 1
-            pos_hint: {"top": .45, "left": 1}
-            size_hint: 1, .25
+            pos_hint: {"top": .425, "left": 1}
+            size_hint: 1, .3
             ImageButton:
-                source: "BuyButton.png"
+                source: "imgs/BuyButton.png"
                 on_press:
-                    # Make a darker version of the image
+                    self.source = "imgs/BuyButtonDark.png"
                 on_release:
+                    self.source = "imgs/BuyButton.png"
                     app.change_screen("buy_screen")
             ImageButton:
-                source: "SellButton.png"
+                source: "imgs/SellButton.png"
                 on_press:
-                    # Make a darker version of the image
-                    # self.source = "image.png"
+                    self.source = "imgs/SellButtonDark.png"
                 on_release:
+                    self.source = "imgs/SellButton.png"
                     app.change_screen("sell_screen")
         GridLayout:
             rows:1
             pos_hint: {"top": .9, "left": 1}
             size_hint: 1, .2
         Image:
-            source: "CloudMarket.png"
+            source: "imgs/CloudMarket.png"
             pos_hint: {"top": .8, "left": 1}
-            size_hint: 1, .15
+            size_hint: 1, .2
             id: logo

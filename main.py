@@ -9,6 +9,8 @@ from datetime import datetime, timedelta, time
 from kivy.uix.popup import Popup
 from kivy.uix.floatlayout import FloatLayout
 from decimal import Decimal
+from kivy.animation import Animation
+from kivy.uix.label import Label
 
 
 # User Object Class
@@ -201,19 +203,32 @@ class CloudMarket(App):
         popupWindow = Popup(title="Bid Window", content=show, size_hint=(None, None), size=(300, 170))
         popupWindow.open()
 
+
     def submit_bid(self, bid_value):
+        if not self.check_string(str(bid_value), "price"):
+            return
         # Reject bid if user cannot afford
-        can_buy = self.check_balance(bid_value)
+        can_buy = self.check_balance_bid(bid_value)
         if (can_buy):
             bid_value = Decimal(bid_value)
             if (bid_value > items[self.curr_item].price):
                 items[self.curr_item].price = bid_value
+                self.balance = float(self.balance) - float(bid_value)
+                self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(self.balance)
             else:
                 errorWindow = Popup(title="Bid must be higher than pre-existing bid!", size_hint=(None, None), size=(300, 170))
                 errorWindow.open()
+
     def check_balance(self, bid_value):
-        if (self.balance < Decimal(bid_value)):
-            errorWindow = Popup(title="You can't afford that!!!", size_hint=(None, None), size=(300, 170))
+        if self.balance < Decimal(bid_value):
+            self.buyscreen_notif("Not enough funds in account!")
+            return False
+        else:
+            return True
+
+    def check_balance_bid(self, bid_value):
+        if self.balance < Decimal(bid_value):
+            errorWindow = Popup(title="Not enough funds in account!", size_hint=(None, None), size=(300, 170))
             errorWindow.open()
             return False
         else:
@@ -235,7 +250,7 @@ class CloudMarket(App):
                 items.append(new_item)
                 for i in range(len(items)):
                     print(items[i].name)
-
+                    self.sellscreen_notif("Item Successfully submitted!")
 
     def check_string(self, string, type):
         if (type == "name"):
@@ -273,7 +288,30 @@ class CloudMarket(App):
             self.balance = float(self.balance) - float(items[item_num].buy_price)
             BuyScreen.balance = self.balance
             self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(self.balance)
+            self.buyscreen_notif("Bought " + items[item_num].name + "!")
             del items[item_num]
+
+    def buyscreen_notif(self, text):
+        label = Label(text=text, font_size='20sp', color=(1, 1, 1, 1))
+        label.size_hint = (1, .15)
+        animation = Animation(color=(1, 1, 1, 0), duration=3)
+        animation.start(label)
+        self.root.ids.buy_screen.add_widget(label)
+        return label
+
+    def sellscreen_notif(self, text):
+        label = Label(text=text, font_size='20sp', color=(1, 1, 1, 1))
+        label.size_hint = (1, .3)
+        animation = Animation(color=(1, 1, 1, 0), duration=3)
+        animation.start(label)
+        self.root.ids.sell_screen.add_widget(label)
+        return label
+
+    def get_money(self, value):
+        self.balance += float(value)
+        self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(self.balance)
+        return
+
 
 # -MAIN---------------------------------------------------------------------------------------------------
 CloudMarket().run()

@@ -7,18 +7,19 @@
             pos_hint: {"bottom": 1, "left": 1}
             size_hint: 1, 1.25
             id: logo
-        Button:
+        ImageButton:
             pos_hint: {'x':.85, 'y':.04}
             size_hint: .1, .075
-            text:
-                "Cancel"
+            source: "HomeButton.png"
+            on_press:
+                self.source = "HomeButtonDark.png"
             on_release:
                 app.change_screen("home_screen")
-        Button:
+                self.source = "HomeButton.png"
+        ImageButton:
             pos_hint: {'x':.3, 'y':.04}
             size_hint: .4, .075
-            text:
-                "Submit"
+            source: "SubmitButton.png"
             on_release:
                 app.submit_item(name_input.text, time_input.text, min_input.text, buy_input.text)
         Label:

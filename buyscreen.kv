@@ -1,28 +1,57 @@
 #This file contains the layout/design for the buy screen
-
+<ErrorPopup>
+    background_color: 0,0,0,0
+    FloatLayout:
+        id: layout
+        pos_hint: {"x": .01, "y": .03}
+        Label:
+            id: bid_error
+            opacity: 1
+            text: app.get_error()
+            size_hint: 0.2, 0.00001
+            pos_hint: {"x":.40, "y":.8}
+        ImageButton:
+            source: "imgs/PopupOK.png"
+            size_hint: .5, 0.2
+            pos_hint: {"x":.25, "y":0.25}
+            on_release:
+                app.close_error()
 <Popups>:
-    Label:
-        text: "Enter bid amount:"
-        size_hint: 0.2, 0.2
-        pos_hint: {"x":.41, "y":0.75}
-    TextInput:
-        size_hint_y: None
-        hint_text: "00.00"
-        height: 30
-        size_hint_x: None
-        width: 200
-        pos_hint: {'x':.13, 'y':.4}
-        multiline: False
-        id: bid_input
-    Button:
-        text: "Submit"
-        # set size of the button
-        size_hint: .5, 0.2
-        # set position of the button
-        pos_hint: {"x":.25, "y":0.1}
-        on_release:
-            app.submit_bid(bid_input.text)
-            app.update(self)
+    FloatLayout:
+        id: layout
+        pos_hint: {"x": .01, "y": .03}
+        Label:
+            text: "Enter bid amount:"
+            size_hint: 0.2, 0.2
+            pos_hint: {"x":.41, "y":0.675}
+        Label:
+            text: "Current Bid: " + app.get_price()
+            size_hint: 0.2, 0.2
+            pos_hint: {"x":.41, "y":0.95}
+        Label:
+            id: bid_error
+            opacity: 0
+            text: "Bid must be higher than pre-existing bid!"
+            size_hint: 0.2, 0.00001
+            pos_hint: {"x":.40, "y":-.015}
+        TextInput:
+            size_hint_y: None
+            hint_text: "00.00"
+            height: 30
+            size_hint_x: None
+            background_normal: "imgs/InputBackground.png"
+            background_active: "imgs/InputBackground.png"
+            width: 200
+            pos_hint: {'x':.13, 'y':.4}
+            multiline: False
+            id: bid_input
+        ImageButton:
+            source: "imgs/PopupSubmit.png"
+            size_hint: .5, 0.2
+            pos_hint: {"x":.25, "y":0.075}
+            on_release:
+                app.submit_bid(bid_input.text)
+                app.update(self)
 <BuyScreen>:
     FloatLayout:
         Image:
@@ -251,7 +280,7 @@
                 app.show_popup(7)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.325}
+            pos_hint: {'x':.875, 'y':.2475}
             size_hint: None, None
             height: 25
             width: 47
@@ -278,7 +307,7 @@
                 app.show_popup(8)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.325}
+            pos_hint: {'x':.875, 'y':.17}
             size_hint: None, None
             height: 25
             width: 47

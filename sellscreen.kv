@@ -23,69 +23,77 @@
             on_release:
                 app.submit_item(name_input.text, time_input.text, min_input.text, buy_input.text)
         Label:
-            pos_hint: {'x':.075, 'y':.9}
+            pos_hint: {'x':.452, 'y':.9}
             size_hint: .1, .075
-            text: "Sell"
+            text: "Item Information"
         Label:
-            pos_hint: {'x':.075, 'y':.8}
+            pos_hint: {'x':.34, 'y':.791}
             size_hint: .1, .075
             text: "Name:"
         TextInput:
             hint_text: 'Enter Name'
             size_hint_y: None
             height: 30
+            background_normal: "imgs/InputBackground.png"
+            background_active: "imgs/InputBackground.png"
             size_hint_x: None
             width: 200
-            pos_hint: {'x':.2, 'y':.8}
+            pos_hint: {'x':.45, 'y':.8}
             multiline: False
             id: name_input
         Label:
-            pos_hint: {'x':.075, 'y':.7}
+            pos_hint: {'x':.34, 'y':.691}
             size_hint: .1, .075
             text: "Minimum Bid:"
         TextInput:
             hint_text: 'Enter Minimum Bid'
             size_hint_y: None
             height: 30
+            background_normal: "imgs/InputBackground.png"
+            background_active: "imgs/InputBackground.png"
             size_hint_x: None
             width: 200
-            pos_hint: {'x':.2, 'y':.7}
+            pos_hint: {'x':.45, 'y':.7}
             multiline: False
             id: min_input
         Label:
-            pos_hint: {'x':.075, 'y':.6}
+            pos_hint: {'x':.34, 'y':.591}
             size_hint: .1, .075
             text: "Buy Now Price:"
         TextInput:
             hint_text: 'Enter Instant Buy Price'
             size_hint_y: None
             height: 30
+            background_normal: "imgs/InputBackground.png"
+            background_active: "imgs/InputBackground.png"
             size_hint_x: None
             width: 200
-            pos_hint: {'x':.2, 'y':.6}
+            pos_hint: {'x':.45, 'y':.6}
             multiline: False
             id: buy_input
         Label:
-            pos_hint: {'x':.075, 'y':.5}
+            pos_hint: {'x':.34, 'y':.491}
             size_hint: .1, .075
             text: "Set Time:"
         TextInput:
             hint_text: 'Enter Bid Time Length'
             size_hint_y: None
             height: 30
+            background_normal: "imgs/InputBackground.png"
+            background_active: "imgs/InputBackground.png"
             size_hint_x: None
             width: 200
-            pos_hint: {'x':.2, 'y':.5}
+            pos_hint: {'x':.45, 'y':.5}
             multiline: False
             id: time_input
         Label:
-            pos_hint: {'x':.075, 'y':.4}
+            pos_hint: {'x':.34, 'y':.391}
             size_hint: .1, .075
             text: "Category:"
-        Button:
-            text: 'Select Category'
+        ImageButton:
+            source: "imgs/CategoryButton.png"
             size_hint_y: None
-            pos_hint: {'x':.2, 'y':.4}
+            pos_hint: {'x':.45, 'y':.4}
             height: 30
             size_hint_x: None
             width: 200
@@ -94,24 +102,32 @@
             id: select_category
             DropDown:
                 id: dropdown
-                Button:
-                    text: 'Option 1'
+                ImageButton:
+                    source: "imgs/ClothingButton.png"
                     size_hint_y: None
                     height: 30
                     size_hint_x: None
                     width: 200
-                    on_release: dropdown.select('Option 1')
-                Button:
+                    on_release:
+                        dropdown.select('Option 1')
+                        select_category.source = "imgs/ClothingButton.png"
+                ImageButton:
+                    source: "imgs/CollectiblesButton.png"
                     text: 'Option 2'
                     size_hint_y: None
                     height: 30
                     size_hint_x: None
                     width: 200
-                    on_release: dropdown.select('Option 2')
-                Button:
+                    on_release:
+                        dropdown.select('Option 2')
+                        select_category.source = "imgs/CollectiblesButton.png"
+                ImageButton:
+                    source: "imgs/ElectronicsButton.png"
                     text: 'Option 3'
                     size_hint_y: None
                     height: 30
                     size_hint_x: None
                     width: 200
-                    on_release: dropdown.select('Option 3')
+                    on_release:
+                        dropdown.select('Option 3')
+                        select_category.source = "imgs/ElectronicsButton.png"

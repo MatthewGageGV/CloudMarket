@@ -12,7 +12,6 @@ from decimal import Decimal
 from kivy.animation import Animation
 from kivy.uix.label import Label
 
-
 # User Object Class
 class User:
     def __init__(self, tempID, tempName, balance):
@@ -30,6 +29,9 @@ class Bid:
 
 # Popup Window Class
 class Popups(FloatLayout):
+    pass
+
+class ErrorPopup(FloatLayout):
     pass
 
 # Item Object Class
@@ -81,6 +83,9 @@ items.append(item5)
 # Class of the application
 class CloudMarket(App):
     curr_item = -1
+    curr_popup = None
+    error_popup = None
+    error_message = None
     balance = 1000.00
     default_user = User(1, "John Doe", balance);
 
@@ -124,33 +129,45 @@ class CloudMarket(App):
             temp_time = items[i].time
             temp = datetime.min + timedelta(minutes=temp_time)
             t = time(temp.hour, temp.minute)
+            item.disabled = False
             item.opacity = 1
             item = getattr(item_ids, "item_time_" + str(i+1))
             item.text = str(t)
+            item.disabled = False
             item.opacity = 1
             item = getattr(item_ids, "item_price_" + str(i+1))
             item.text = "${:.2f}".format(items[i].price)
+            item.disabled = False
             item.opacity = 1
             item = getattr(item_ids, "item_buy_" + str(i+1))
             item.text = "${:.2f}".format(items[i].buy_price)
+            item.disabled = False
             item.opacity = 1
             item = getattr(item_ids, "bid_button_" + str(i+1))
+            item.disabled = False
             item.opacity = 1
             item = getattr(item_ids, "buy_button_" + str(i+1))
+            item.disabled = False
             item.opacity = 1
         for i in range(len(items), 9):
             item = getattr(item_ids, "item_name_" + str(i+1))
             item.opacity = 0
+            item.disabled = True
             item = getattr(item_ids, "item_time_" + str(i+1))
             item.opacity = 0
+            item.disabled = True
             item = getattr(item_ids, "item_price_" + str(i+1))
             item.opacity = 0
+            item.disabled = True
             item = getattr(item_ids, "item_buy_" + str(i+1))
             item.opacity = 0
+            item.disabled = True
             item = getattr(item_ids, "bid_button_" + str(i+1))
             item.opacity = 0
+            item.disabled = True
             item = getattr(item_ids, "buy_button_" + str(i+1))
             item.opacity = 0
+            item.disabled = True
 
     # Tasks performed once per second
     def update(self, dt):
@@ -159,32 +176,44 @@ class CloudMarket(App):
             item = getattr(item_ids, "item_name_" + str(i+1))
             item.text = items[i].name
             item.opacity = 1
+            item.disabled = False
             item = getattr(item_ids, "item_price_" + str(i+1))
             item.text = "${:.2f}".format(items[i].price)
             item.opacity = 1
+            item.disabled = False
             item = getattr(item_ids, "item_buy_" + str(i+1))
             item.text = "${:.2f}".format(items[i].buy_price)
             item.opacity = 1
+            item.disabled = False
             item = getattr(item_ids, "item_time_" + str(i+1))
             item.opacity = 1
+            item.disabled = False
             item = getattr(item_ids, "bid_button_" + str(i+1))
             item.opacity = 1
+            item.disabled = False
             item = getattr(item_ids, "buy_button_" + str(i+1))
             item.opacity = 1
+            item.disabled = False
 
         for i in range(len(items), 9):
             item = getattr(item_ids, "item_name_" + str(i+1))
             item.opacity = 0
+            item.disabled = True
             item = getattr(item_ids, "item_time_" + str(i+1))
             item.opacity = 0
+            item.disabled = True
             item = getattr(item_ids, "item_price_" + str(i+1))
             item.opacity = 0
+            item.disabled = True
             item = getattr(item_ids, "item_buy_" + str(i+1))
             item.opacity = 0
+            item.disabled = True
             item = getattr(item_ids, "bid_button_" + str(i+1))
             item.opacity = 0
+            item.disabled = True
             item = getattr(item_ids, "buy_button_" + str(i+1))
             item.opacity = 0
+            item.disabled = True
         for i in range(len(items)-1, -1, -1):
             seconds = items[i].time
             hours = seconds // 3600
@@ -198,10 +227,12 @@ class CloudMarket(App):
                 del items[i]
 
     def show_popup(self, item_num):
-        show = Popups()
         self.curr_item = item_num
-        popupWindow = Popup(title="Bid Window", content=show, size_hint=(None, None), size=(300, 170))
+        show = Popups()
+        popupWindow = Popup(title="", content=show, separator_color=(0,0,0,0), background="imgs/PopupBackground.png", size_hint=(None, None), size=(300, 170))
+        popupWindow.overlay_color= (0,0,0,.3)
         popupWindow.open()
+        self.curr_popup = popupWindow
 
 
     def submit_bid(self, bid_value):
@@ -215,9 +246,15 @@ class CloudMarket(App):
                 items[self.curr_item].price = bid_value
                 self.balance = float(self.balance) - float(bid_value)
                 self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(self.balance)
+                self.curr_popup.dismiss()
+                self.buyscreen_notif("Bid submitted!")
             else:
-                errorWindow = Popup(title="Bid must be higher than pre-existing bid!", size_hint=(None, None), size=(300, 170))
-                errorWindow.open()
+                self.error_message = "Bid must be higher than current bid!"
+                show = ErrorPopup()
+                error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0), background="imgs/PopupBackground.png", size_hint=(None, None), size=(300, 170))
+                error_popup.overlay_color= (0,0,0,0)
+                error_popup.open()
+                self.error_popup = error_popup
 
     def check_balance(self, bid_value):
         if self.balance < Decimal(bid_value):
@@ -228,8 +265,12 @@ class CloudMarket(App):
 
     def check_balance_bid(self, bid_value):
         if self.balance < Decimal(bid_value):
-            errorWindow = Popup(title="Not enough funds in account!", size_hint=(None, None), size=(300, 170))
-            errorWindow.open()
+            self.error_message = "Not enough funds in account!"
+            show = ErrorPopup()
+            error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0), background="imgs/PopupBackground.png", size_hint=(None, None), size=(300, 170))
+            error_popup.overlay_color = (0, 0, 0, 0)
+            error_popup.open()
+            self.error_popup = error_popup
             return False
         else:
             return True
@@ -240,10 +281,17 @@ class CloudMarket(App):
             ptime = int(ptime)
             min_bid = Decimal(min_bid)
             buy_price = Decimal(buy_price)
+            if(len(items) >= 9):
+                self.sellscreen_notif("List is current full.")
+                return
             if (min_bid > buy_price):
-                errorWindow = Popup(title="Starting bid must be less than buy price.", size_hint=(None, None),
-                                    size=(300, 170))
-                errorWindow.open()
+                self.error_message = "Starting bid must be less than buy price."
+                show = ErrorPopup()
+                error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
+                                    background="imgs/PopupBackground.png", size_hint=(None, None), size=(300, 170))
+                error_popup.overlay_color = (0, 0, 0, .4)
+                error_popup.open()
+                self.error_popup = error_popup
             else:
                 print(ptime)
                 new_item = Item(name, ptime, min_bid, buy_price)
@@ -254,18 +302,26 @@ class CloudMarket(App):
 
     def check_string(self, string, type):
         if (type == "name"):
-            if (not string.isalpha()):
-                errorWindow = Popup(title="Name cannot contain special characters or numbers", size_hint=(None, None),
-                                    size=(300, 170))
-                errorWindow.open()
+            if (not string.replace(" ", "").isalpha()):
+                self.error_message = "Name cannot contain special\n     characters or numbers"
+                show = ErrorPopup()
+                error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
+                                    background="imgs/PopupBackground.png", size_hint=(None, None), size=(300, 170))
+                error_popup.overlay_color = (0, 0, 0, .4)
+                error_popup.open()
+                self.error_popup = error_popup
                 return False
             else:
                 return True
         if (type == "time"):
             if (not string.isdigit()):
-                errorWindow = Popup(title="Time is represented by integers", size_hint=(None, None),
-                                    size=(300, 170))
-                errorWindow.open()
+                self.error_message = "Time is represented by integers"
+                show = ErrorPopup()
+                error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
+                                    background="imgs/PopupBackground.png", size_hint=(None, None), size=(300, 170))
+                error_popup.overlay_color = (0, 0, 0, .4)
+                error_popup.open()
+                self.error_popup = error_popup
                 return False
             else:
                 return True
@@ -274,9 +330,13 @@ class CloudMarket(App):
                 try:
                     float(string)
                 except:
-                    errorWindow = Popup(title="Prices cannot contain anything other than numbers", size_hint=(None, None),
-                                        size=(300, 170))
-                    errorWindow.open()
+                    self.error_message = "Prices cannot contain anything\n         other than numbers"
+                    show = ErrorPopup()
+                    error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
+                                        background="imgs/PopupBackground.png", size_hint=(None, None), size=(300, 170))
+                    error_popup.overlay_color = (0, 0, 0, .4)
+                    error_popup.open()
+                    self.error_popup = error_popup
                     return False
         return True
 
@@ -299,6 +359,13 @@ class CloudMarket(App):
         self.root.ids.buy_screen.add_widget(label)
         return label
 
+    def popup_notif(self, text):
+        label = Label(text=text, font_size='20sp', color=(1, 1, 1, 1))
+        label.size_hint = (1, .15)
+        animation = Animation(color=(1, 1, 1, 0), duration=3)
+        animation.start(label)
+        self.curr_popup.add_widget(label)
+
     def sellscreen_notif(self, text):
         label = Label(text=text, font_size='20sp', color=(1, 1, 1, 1))
         label.size_hint = (1, .3)
@@ -307,10 +374,20 @@ class CloudMarket(App):
         self.root.ids.sell_screen.add_widget(label)
         return label
 
+    def close_error(self):
+        self.error_popup.dismiss()
+        return
+
     def get_money(self, value):
         self.balance += float(value)
         self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(self.balance)
         return
+
+    def get_price(self):
+        return "${:.2f}".format(items[self.curr_item].price)
+
+    def get_error(self):
+        return self.error_message
 
 
 # -MAIN---------------------------------------------------------------------------------------------------

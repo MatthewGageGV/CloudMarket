@@ -20,7 +20,10 @@
             pos_hint: {'x':.3, 'y':.04}
             size_hint: .4, .075
             source: "imgs/SubmitButton.png"
+            on_press:
+                self.source = "imgs/SubmitButtonDark.png"
             on_release:
+                self.source = "imgs/SubmitButton.png"
                 app.submit_item(name_input.text, time_input.text, min_input.text, buy_input.text)
         Label:
             pos_hint: {'x':.452, 'y':.9}

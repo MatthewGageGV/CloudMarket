@@ -1,6 +1,5 @@
 #This file contains the layout/design for the buy screen
 <ErrorPopup>
-    background_color: 0,0,0,0
     FloatLayout:
         id: layout
         pos_hint: {"x": .01, "y": .03}
@@ -27,7 +26,7 @@
         Label:
             text: "Current Bid: " + app.get_price()
             size_hint: 0.2, 0.2
-            pos_hint: {"x":.41, "y":0.95}
+            pos_hint: {"x":.40, "y":0.95}
         Label:
             id: bid_error
             opacity: 0
@@ -35,14 +34,11 @@
             size_hint: 0.2, 0.00001
             pos_hint: {"x":.40, "y":-.015}
         TextInput:
-            size_hint_y: None
+            size_hint: .6, .2
             hint_text: "00.00"
-            height: 30
-            size_hint_x: None
             background_normal: "imgs/InputBackground.png"
             background_active: "imgs/InputBackground.png"
-            width: 200
-            pos_hint: {'x':.13, 'y':.4}
+            pos_hint: {'x':.195, 'y':.4}
             multiline: False
             id: bid_input
         ImageButton:
@@ -56,8 +52,10 @@
     FloatLayout:
         Image:
             source: "imgs/Background.png"
+            allow_strech: True
+            keep_ratio: False
             pos_hint: {"bottom": 1, "left": 1}
-            size_hint: 1, 1.25
+            size_hint: 1, 1.243
             id: logo
         ImageButton:
             pos_hint: {'x':.85, 'y':.04}
@@ -78,11 +76,8 @@
                 app.get_money(1000)
                 self.source = "imgs/MoneyButton.png"
         ImageButton:
-            pos_hint: {'x':.645, 'y':.79}
-            size_hint: None, None
-            height: 25
-            width: 47
-            keep_ratio : True
+            pos_hint: {'x':.64, 'y':.787}
+            size_hint: .0475, .0475
             source: "imgs/BidButton.png"
             id: bid_button_1
             on_press:
@@ -91,12 +86,9 @@
                 app.show_popup(0)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.79}
-            size_hint: None, None
-            height: 25
-            width: 47
+            pos_hint: {'x':.875, 'y':.787}
+            size_hint: .0475, .0475
             id: buy_button_1
-            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
@@ -105,11 +97,8 @@
                 app.update(self)
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.645, 'y':.7125}
-            size_hint: None, None
-            height: 25
-            width: 47
-            keep_ratio : True
+            pos_hint: {'x':.64, 'y':.709}
+            size_hint: .0475, .0475
             source: "imgs/BidButton.png"
             id: bid_button_2
             on_press:
@@ -118,12 +107,9 @@
                 app.show_popup(1)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.7125}
-            size_hint: None, None
-            height: 25
-            width: 47
+            pos_hint: {'x':.875, 'y':.709}
+            size_hint: .0475, .0475
             id: buy_button_2
-            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
@@ -132,11 +118,8 @@
                 app.update(self)
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.645, 'y':.635}
-            size_hint: None, None
-            height: 25
-            width: 47
-            keep_ratio : True
+            pos_hint: {'x':.64, 'y':.631}
+            size_hint: .0475, .0475
             source: "imgs/BidButton.png"
             id: bid_button_3
             on_press:
@@ -145,12 +128,9 @@
                 app.show_popup(2)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.635}
-            size_hint: None, None
-            height: 25
-            width: 47
+            pos_hint: {'x':.875, 'y':.631}
+            size_hint: .0475, .0475
             id: buy_button_3
-            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
@@ -159,10 +139,8 @@
                 app.update(self)
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.645, 'y':.5575}
-            size_hint: None, None
-            height: 25
-            width: 47
+            pos_hint: {'x':.64, 'y':.553}
+            size_hint: .0475, .0475
             keep_ratio : True
             source: "imgs/BidButton.png"
             id: bid_button_4
@@ -172,12 +150,9 @@
                 app.show_popup(3)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.5575}
-            size_hint: None, None
-            height: 25
-            width: 47
+            pos_hint: {'x':.875, 'y':.553}
+            size_hint: .0475, .0475
             id: buy_button_4
-            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
@@ -186,11 +161,8 @@
                 app.update(self)
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.645, 'y':.48}
-            size_hint: None, None
-            height: 25
-            width: 47
-            keep_ratio : True
+            pos_hint: {'x':.64, 'y':.475}
+            size_hint: .0475, .0475
             source: "imgs/BidButton.png"
             id: bid_button_5
             on_press:
@@ -199,12 +171,9 @@
                 app.show_popup(4)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.48}
-            size_hint: None, None
-            height: 25
-            width: 47
+            pos_hint: {'x':.875, 'y':.475}
+            size_hint: .0475, .0475
             id: buy_button_5
-            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
@@ -213,11 +182,8 @@
                 app.update(self)
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.645, 'y':.4025}
-            size_hint: None, None
-            height: 25
-            width: 47
-            keep_ratio : True
+            pos_hint: {'x':.64, 'y':.397}
+            size_hint: .0475, .0475
             source: "imgs/BidButton.png"
             id: bid_button_6
             on_press:
@@ -226,10 +192,8 @@
                 app.show_popup(5)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.4025}
-            size_hint: None, None
-            height: 25
-            width: 47
+            pos_hint: {'x':.875, 'y':.397}
+            size_hint: .0475, .0475
             id: buy_button_6
             keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
@@ -240,11 +204,8 @@
                 app.update(self)
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.645, 'y':.325}
-            size_hint: None, None
-            height: 25
-            width: 47
-            keep_ratio : True
+            pos_hint: {'x':.64, 'y':.319}
+            size_hint: .0475, .0475
             source: "imgs/BidButton.png"
             id: bid_button_7
             on_press:
@@ -253,12 +214,9 @@
                 app.show_popup(6)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.325}
-            size_hint: None, None
-            height: 25
-            width: 47
+            pos_hint: {'x':.875, 'y':.319}
+            size_hint: .0475, .0475
             id: buy_button_7
-            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
@@ -267,11 +225,8 @@
                 app.update(self)
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.645, 'y':.2475}
-            size_hint: None, None
-            height: 25
-            width: 47
-            keep_ratio : True
+            pos_hint: {'x':.64, 'y':.241}
+            size_hint: .0475, .0475
             source: "imgs/BidButton.png"
             id: bid_button_8
             on_press:
@@ -280,12 +235,9 @@
                 app.show_popup(7)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.2475}
-            size_hint: None, None
-            height: 25
-            width: 47
+            pos_hint: {'x':.875, 'y':.241}
+            size_hint: .0475, .0475
             id: buy_button_8
-            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
@@ -294,11 +246,8 @@
                 app.update(self)
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.645, 'y':.17}
-            size_hint: None, None
-            height: 25
-            width: 47
-            keep_ratio : True
+            pos_hint: {'x':.64, 'y':.163}
+            size_hint: .0475, .0475
             source: "imgs/BidButton.png"
             id: bid_button_9
             on_press:
@@ -307,12 +256,9 @@
                 app.show_popup(8)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.17}
-            size_hint: None, None
-            height: 25
-            width: 47
+            pos_hint: {'x':.875, 'y':.163}
+            size_hint: .0475, .0475
             id: buy_button_9
-            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"

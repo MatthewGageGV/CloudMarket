@@ -82,6 +82,7 @@ items.append(item4)
 items.append(item5)
 
 
+
 class CloudMarket(App):
     """contains all the methods of the app"""
     curr_item = -1
@@ -233,7 +234,7 @@ class CloudMarket(App):
         show = Popups()
         popup_window = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
                             background="imgs/PopupBackground.png",
-                            size_hint=(None, None), size=(300, 170))
+                            size_hint=(.3, .3))
         popup_window.overlay_color = (0, 0, 0, .3)
         popup_window.open()
         self.curr_popup = popup_window
@@ -257,7 +258,7 @@ class CloudMarket(App):
                 show = ErrorPopup()
                 error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
                                     background="imgs/PopupBackground.png",
-                                    size_hint=(None, None), size=(300, 170))
+                                    size_hint=(.3, .3))
                 error_popup.overlay_color = (0, 0, 0, 0)
                 error_popup.open()
                 self.error_popup = error_popup
@@ -276,7 +277,7 @@ class CloudMarket(App):
             show = ErrorPopup()
             error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
                                 background="imgs/PopupBackground.png",
-                                size_hint=(None, None), size=(300, 170))
+                                size_hint=(.3, .3))
             error_popup.overlay_color = (0, 0, 0, 0)
             error_popup.open()
             self.error_popup = error_popup
@@ -299,7 +300,7 @@ class CloudMarket(App):
                 show = ErrorPopup()
                 error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
                                     background="imgs/PopupBackground.png",
-                                    size_hint=(None, None), size=(300, 170))
+                                    size_hint=(.3, .3))
                 error_popup.overlay_color = (0, 0, 0, .4)
                 error_popup.open()
                 self.error_popup = error_popup
@@ -316,7 +317,7 @@ class CloudMarket(App):
                 show = ErrorPopup()
                 error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
                                     background="imgs/PopupBackground.png",
-                                    size_hint=(None, None), size=(300, 170))
+                                    size_hint=(.3, .3))
                 error_popup.overlay_color = (0, 0, 0, .4)
                 error_popup.open()
                 self.error_popup = error_popup
@@ -328,7 +329,7 @@ class CloudMarket(App):
                 show = ErrorPopup()
                 error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
                                     background="imgs/PopupBackground.png",
-                                    size_hint=(None, None), size=(300, 170))
+                                    size_hint=(.3, .3))
                 error_popup.overlay_color = (0, 0, 0, .4)
                 error_popup.open()
                 self.error_popup = error_popup
@@ -344,7 +345,7 @@ class CloudMarket(App):
                     show = ErrorPopup()
                     error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
                                         background="imgs/PopupBackground.png",
-                                        size_hint=(None, None), size=(300, 170))
+                                        size_hint=(.3, .3))
                     error_popup.overlay_color = (0, 0, 0, .4)
                     error_popup.open()
                     self.error_popup = error_popup

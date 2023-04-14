@@ -1,5 +1,6 @@
 #This file contains the layout/design for the buy screen
 <ErrorPopup>
+    background_color: 0,0,0,0
     FloatLayout:
         id: layout
         pos_hint: {"x": .01, "y": .03}
@@ -26,7 +27,7 @@
         Label:
             text: "Current Bid: " + app.get_price()
             size_hint: 0.2, 0.2
-            pos_hint: {"x":.40, "y":0.95}
+            pos_hint: {"x":.41, "y":0.95}
         Label:
             id: bid_error
             opacity: 0
@@ -34,11 +35,14 @@
             size_hint: 0.2, 0.00001
             pos_hint: {"x":.40, "y":-.015}
         TextInput:
-            size_hint: .6, .2
+            size_hint_y: None
             hint_text: "00.00"
+            height: 30
+            size_hint_x: None
             background_normal: "imgs/InputBackground.png"
             background_active: "imgs/InputBackground.png"
-            pos_hint: {'x':.195, 'y':.4}
+            width: 200
+            pos_hint: {'x':.13, 'y':.4}
             multiline: False
             id: bid_input
         ImageButton:
@@ -47,16 +51,26 @@
             pos_hint: {"x":.25, "y":0.075}
             on_release:
                 app.submit_bid(bid_input.text)
-                app.update(self)
+                app.updateUI()
 <BuyScreen>:
     FloatLayout:
         Image:
             source: "imgs/Background.png"
-            allow_strech: True
-            keep_ratio: False
             pos_hint: {"bottom": 1, "left": 1}
-            size_hint: 1, 1.243
+            size_hint: 1, 1.25
             id: logo
+        Image:
+            source: "imgs/BidTracking.png"
+            pos_hint: {'x':.4, 'y':.91}
+            size_hint: .2, .075
+            id: bidtracking
+            opacity: 0
+        Image:
+            source: "imgs/WishListTitle.png"
+            pos_hint: {'x':.4, 'y':.91}
+            size_hint: .2, .075
+            id: wishlisttitle
+            opacity: 0
         ImageButton:
             pos_hint: {'x':.85, 'y':.04}
             size_hint: .1, .075
@@ -76,8 +90,11 @@
                 app.get_money(1000)
                 self.source = "imgs/MoneyButton.png"
         ImageButton:
-            pos_hint: {'x':.64, 'y':.787}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.645, 'y':.79}
+            size_hint: None, None
+            height: 25
+            width: 47
+            keep_ratio : True
             source: "imgs/BidButton.png"
             id: bid_button_1
             on_press:
@@ -86,19 +103,39 @@
                 app.show_popup(0)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.787}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.875, 'y':.79}
+            size_hint: None, None
+            height: 25
+            width: 47
             id: buy_button_1
+            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
             on_release:
                 app.buy_item(0)
-                app.update(self)
+                app.updateUI()
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.64, 'y':.709}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.925, 'y':.79}
+            size_hint: None, None
+            height: 25
+            width: 47
+            id: wish_button_1
+            keep_ratio : True
+            source: "imgs/WishlistButtonSmall.png"
+            on_press:
+                self.source = "imgs/WishlistButtonSmallDark.png"
+            on_release:
+                app.wishlist_item(0)
+                app.updateUI()
+                self.source = "imgs/WishlistButtonSmall.png"
+        ImageButton:
+            pos_hint: {'x':.645, 'y':.7125}
+            size_hint: None, None
+            height: 25
+            width: 47
+            keep_ratio : True
             source: "imgs/BidButton.png"
             id: bid_button_2
             on_press:
@@ -107,19 +144,39 @@
                 app.show_popup(1)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.709}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.875, 'y':.7125}
+            size_hint: None, None
+            height: 25
+            width: 47
             id: buy_button_2
+            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
             on_release:
                 app.buy_item(1)
-                app.update(self)
+                app.updateUI()
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.64, 'y':.631}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.925, 'y':.7125}
+            size_hint: None, None
+            height: 25
+            width: 47
+            id: wish_button_2
+            keep_ratio : True
+            source: "imgs/WishlistButtonSmall.png"
+            on_press:
+                self.source = "imgs/WishlistButtonSmallDark.png"
+            on_release:
+                app.wishlist_item(1)
+                app.updateUI()
+                self.source = "imgs/WishlistButtonSmall.png"
+        ImageButton:
+            pos_hint: {'x':.645, 'y':.635}
+            size_hint: None, None
+            height: 25
+            width: 47
+            keep_ratio : True
             source: "imgs/BidButton.png"
             id: bid_button_3
             on_press:
@@ -128,19 +185,38 @@
                 app.show_popup(2)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.631}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.875, 'y':.635}
+            size_hint: None, None
+            height: 25
+            width: 47
             id: buy_button_3
+            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
             on_release:
                 app.buy_item(2)
-                app.update(self)
+                app.updateUI()
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.64, 'y':.553}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.925, 'y':.635}
+            size_hint: None, None
+            height: 25
+            width: 47
+            id: wish_button_3
+            keep_ratio : True
+            source: "imgs/WishlistButtonSmall.png"
+            on_press:
+                self.source = "imgs/WishlistButtonSmallDark.png"
+            on_release:
+                app.wishlist_item(2)
+                app.updateUI()
+                self.source = "imgs/WishlistButtonSmall.png"
+        ImageButton:
+            pos_hint: {'x':.645, 'y':.5575}
+            size_hint: None, None
+            height: 25
+            width: 47
             keep_ratio : True
             source: "imgs/BidButton.png"
             id: bid_button_4
@@ -150,19 +226,39 @@
                 app.show_popup(3)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.553}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.875, 'y':.5575}
+            size_hint: None, None
+            height: 25
+            width: 47
             id: buy_button_4
+            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
             on_release:
                 app.buy_item(3)
-                app.update(self)
+                app.updateUI()
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.64, 'y':.475}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.925, 'y':.5575}
+            size_hint: None, None
+            height: 25
+            width: 47
+            id: wish_button_4
+            keep_ratio : True
+            source: "imgs/WishlistButtonSmall.png"
+            on_press:
+                self.source = "imgs/WishlistButtonSmallDark.png"
+            on_release:
+                app.wishlist_item(3)
+                app.updateUI()
+                self.source = "imgs/WishlistButtonSmall.png"
+        ImageButton:
+            pos_hint: {'x':.645, 'y':.48}
+            size_hint: None, None
+            height: 25
+            width: 47
+            keep_ratio : True
             source: "imgs/BidButton.png"
             id: bid_button_5
             on_press:
@@ -171,19 +267,39 @@
                 app.show_popup(4)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.475}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.875, 'y':.48}
+            size_hint: None, None
+            height: 25
+            width: 47
             id: buy_button_5
+            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
             on_release:
                 app.buy_item(4)
-                app.update(self)
+                app.updateUI()
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.64, 'y':.397}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.925, 'y':.48}
+            size_hint: None, None
+            height: 25
+            width: 47
+            id: wish_button_5
+            keep_ratio : True
+            source: "imgs/WishlistButtonSmall.png"
+            on_press:
+                self.source = "imgs/WishlistButtonSmallDark.png"
+            on_release:
+                app.wishlist_item(4)
+                app.updateUI()
+                self.source = "imgs/WishlistButtonSmall.png"
+        ImageButton:
+            pos_hint: {'x':.645, 'y':.4025}
+            size_hint: None, None
+            height: 25
+            width: 47
+            keep_ratio : True
             source: "imgs/BidButton.png"
             id: bid_button_6
             on_press:
@@ -192,8 +308,10 @@
                 app.show_popup(5)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.397}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.875, 'y':.4025}
+            size_hint: None, None
+            height: 25
+            width: 47
             id: buy_button_6
             keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
@@ -201,11 +319,28 @@
                 self.source = "imgs/BuyButtonSmallDark.png"
             on_release:
                 app.buy_item(5)
-                app.update(self)
+                app.updateUI()
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.64, 'y':.319}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.925, 'y':.4025}
+            size_hint: None, None
+            height: 25
+            width: 47
+            id: wish_button_6
+            keep_ratio : True
+            source: "imgs/WishlistButtonSmall.png"
+            on_press:
+                self.source = "imgs/WishlistButtonSmallDark.png"
+            on_release:
+                app.wishlist_item(5)
+                app.updateUI()
+                self.source = "imgs/WishlistButtonSmall.png"
+        ImageButton:
+            pos_hint: {'x':.645, 'y':.325}
+            size_hint: None, None
+            height: 25
+            width: 47
+            keep_ratio : True
             source: "imgs/BidButton.png"
             id: bid_button_7
             on_press:
@@ -214,19 +349,39 @@
                 app.show_popup(6)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.319}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.875, 'y':.325}
+            size_hint: None, None
+            height: 25
+            width: 47
             id: buy_button_7
+            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
             on_release:
                 app.buy_item(6)
-                app.update(self)
+                app.updateUI()
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.64, 'y':.241}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.925, 'y':.325}
+            size_hint: None, None
+            height: 25
+            width: 47
+            id: wish_button_7
+            keep_ratio : True
+            source: "imgs/WishlistButtonSmall.png"
+            on_press:
+                self.source = "imgs/WishlistButtonSmallDark.png"
+            on_release:
+                app.wishlist_item(6)
+                app.updateUI()
+                self.source = "imgs/WishlistButtonSmall.png"
+        ImageButton:
+            pos_hint: {'x':.645, 'y':.2475}
+            size_hint: None, None
+            height: 25
+            width: 47
+            keep_ratio : True
             source: "imgs/BidButton.png"
             id: bid_button_8
             on_press:
@@ -235,19 +390,39 @@
                 app.show_popup(7)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.241}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.875, 'y':.2475}
+            size_hint: None, None
+            height: 25
+            width: 47
             id: buy_button_8
+            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
             on_release:
                 app.buy_item(7)
-                app.update(self)
+                app.updateUI()
                 self.source = "imgs/BuyButtonSmall.png"
         ImageButton:
-            pos_hint: {'x':.64, 'y':.163}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.925, 'y':.2475}
+            size_hint: None, None
+            height: 25
+            width: 47
+            id: wish_button_8
+            keep_ratio : True
+            source: "imgs/WishlistButtonSmall.png"
+            on_press:
+                self.source = "imgs/WishlistButtonSmallDark.png"
+            on_release:
+                app.wishlist_item(7)
+                app.updateUI()
+                self.source = "imgs/WishlistButtonSmall.png"
+        ImageButton:
+            pos_hint: {'x':.645, 'y':.17}
+            size_hint: None, None
+            height: 25
+            width: 47
+            keep_ratio : True
             source: "imgs/BidButton.png"
             id: bid_button_9
             on_press:
@@ -256,16 +431,33 @@
                 app.show_popup(8)
                 self.source = "imgs/BidButton.png"
         ImageButton:
-            pos_hint: {'x':.875, 'y':.163}
-            size_hint: .0475, .0475
+            pos_hint: {'x':.875, 'y':.17}
+            size_hint: None, None
+            height: 25
+            width: 47
             id: buy_button_9
+            keep_ratio : True
             source: "imgs/BuyButtonSmall.png"
             on_press:
                 self.source = "imgs/BuyButtonSmallDark.png"
             on_release:
                 app.buy_item(8)
-                app.update(self)
+                app.updateUI()
                 self.source = "imgs/BuyButtonSmall.png"
+        ImageButton:
+            pos_hint: {'x':.925, 'y':.17}
+            size_hint: None, None
+            height: 25
+            width: 47
+            id: wish_button_9
+            keep_ratio : True
+            source: "imgs/WishlistButtonSmall.png"
+            on_press:
+                self.source = "imgs/WishlistButtonSmallDark.png"
+            on_release:
+                app.wishlist_item(8)
+                app.updateUI()
+                self.source = "imgs/WishlistButtonSmall.png"
         GridLayout:
             rows: 1
             pos_hint: {"top": 1, "left": 1}
@@ -298,7 +490,7 @@
         Label:
             pos_hint: {'x':.135, 'y':.0375}
             size_hint: .1, .075
-            text: root.balance_to_string()
+            text: "$1000.00"
             id: balance_label
         GridLayout:
             rows: 9

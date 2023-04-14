@@ -5,10 +5,8 @@
     FloatLayout:
         Image:
             source: "imgs/Background.png"
-            allow_strech: True
-            keep_ratio: False
             pos_hint: {"bottom": 1, "left": 1}
-            size_hint: 1, 1.243
+            size_hint: 1, 1.25
             id: logo
         GridLayout:
             rows: 1
@@ -20,6 +18,7 @@
                     self.source = "imgs/BuyButtonDark.png"
                 on_release:
                     self.source = "imgs/BuyButton.png"
+                    app.switchlist("buylist")
                     app.change_screen("buy_screen")
             ImageButton:
                 source: "imgs/SellButton.png"
@@ -28,6 +27,23 @@
                 on_release:
                     self.source = "imgs/SellButton.png"
                     app.change_screen("sell_screen")
+            ImageButton:
+                source: "imgs/TrackButton.png"
+                on_press:
+                    self.source = "imgs/TrackButtonDark.png"
+                on_release:
+                    self.source = "imgs/TrackButton.png"
+                    app.switchlist("tracklist")
+                    app.change_screen("buy_screen")
+            ImageButton:
+                source: "imgs/WishButton.png"
+                on_press:
+                    self.source = "imgs/WishButtonDark.png"
+                on_release:
+                    self.source = "imgs/WishButton.png"
+                    app.switchlist("wishlist")
+                    app.change_screen("buy_screen")
+
         GridLayout:
             rows:1
             pos_hint: {"top": .9, "left": 1}

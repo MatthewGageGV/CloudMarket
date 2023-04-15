@@ -13,11 +13,11 @@ class Check:
             if not string.replace(" ", "").isalpha():
                 return 1
             return 0
-        if data_type == "time":
+        elif data_type == "time":
             if not string.isdigit():
                 return 2
             return 0
-        if data_type == "price":
+        elif data_type == "price":
             if not string.isdigit():
                 try:
                     float(string)

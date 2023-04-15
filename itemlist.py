@@ -20,6 +20,7 @@ class ItemList:
         for i in range(len(self.list)):
             if(self.list[i].id == pid):
                 return self.list[i]
+        return
     
     def getLength(self):
         return len(self.list)

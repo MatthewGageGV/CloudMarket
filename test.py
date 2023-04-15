@@ -59,6 +59,7 @@ class testGetItemByID(unittest.TestCase):
         tempItem = Item("Test", 1000, 20.00, 30.00)
         temp.addItem(tempItem)
         self.assertEqual(tempItem.id, temp.getItemByID(tempItem.id).id)
+        self.assertEqual(temp.getItemByID("awpoeijf"), None)
 
 
 class testRemoveItem(unittest.TestCase):
@@ -94,6 +95,53 @@ class testSetBalance(unittest.TestCase):
         result= temp.getBalance()
         self.assertEqual(result, 500)
 
+class testCheckBalance(unittest.TestCase):
+    def testCheckString(self):
+        self.assertEquals(Check.check_string("Test", "name"), 0)
+        self.assertEquals(Check.check_string("Test1", "name"), 1)
+        self.assertEquals(Check.check_string("200", "time"), 0)
+        self.assertEquals(Check.check_string("200f", "time"), 2)
+        self.assertEquals(Check.check_string("200.00", "price"), 0)
+        self.assertEquals(Check.check_string("200f", "price"), 3)
+
+class testCheckString(unittest.TestCase):
+    def testCheckString(self):
+        self.assertEquals(Check.check_string("Test", "name"), 0)
+        self.assertEquals(Check.check_string("Test1", "name"), 1)
+        self.assertEquals(Check.check_string("200", "time"), 0)
+        self.assertEquals(Check.check_string("200f", "time"), 2)
+        self.assertEquals(Check.check_string("200.00", "price"), 0)
+        self.assertEquals(Check.check_string("200f", "price"), 3)
+        self.assertEquals(Check.check_string("200", "price"), 0)
+        self.assertEquals(Check.check_string("200", "prices"), 0)
+
+        
+
+class testCheckBalance(unittest.TestCase):
+    def testCheckBalance(self):
+        self.assertEquals(Check.check_balance(100.00, 150.00), False)
+        self.assertEquals(Check.check_balance(150.00, 100.00), True)
+
+class testCheckPrice(unittest.TestCase):
+    def testCheckPrice(self):
+        self.assertEquals(Check.checkPrice(150.00, 100.00), False)
+        self.assertEquals(Check.checkPrice(100.00, 150.00), True)
+
+class testBuyItem(unittest.TestCase):
+    def testBuyItem(self):
+        user = User(1000)
+        itemlist = ItemList()
+        self.assertEquals(Check.buyItem(0, user, itemlist), True)
+        user.setBalance(0)
+        self.assertEquals(Check.buyItem(0, user, itemlist), False)
+
+class testCheckTime(unittest.TestCase):
+    def testCheckTime(self):
+        itemlist = ItemList()
+        item = Item("test", -1, 100.00, 115.00)
+        itemlist.addItem(item)
+        Check.checkTime(itemlist)
+        self.assertNotIn(item, itemlist.list)
 
 if __name__ == '__main__':
     unittest.main()

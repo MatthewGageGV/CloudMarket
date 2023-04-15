@@ -1,9 +1,8 @@
 """Runs the CloudMarket application"""
-from datetime import datetime, timedelta, time
-from gui import CloudMarket
+from view import View
 from model import Model
 
 
 #-MAIN-------------------------------------------
 model = Model()
-cloudmarket = CloudMarket(model).run()
+View(model).run()

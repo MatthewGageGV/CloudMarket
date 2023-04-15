@@ -1,7 +1,7 @@
 import unittest
 from user import User
 from item import Item
-from check import Controller
+from check import Check
 
 
 class UserTest(unittest.TestCase):
@@ -21,7 +21,7 @@ class ItemTest(unittest.TestCase):
 
 class test_check_balance(unittest.TestCase):
     def test_check_balance(self):
-        result = Controller.check_balance(50.00, 150.00)
+        result = Check.check_balance(50.00, 150.00)
         self.assertEqual(result, False)
 
 

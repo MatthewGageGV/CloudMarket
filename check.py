@@ -1,6 +1,5 @@
 from decimal import Decimal
 
-
 class Check:
     def check_balance(balance, bid_value):
         if balance < Decimal(bid_value):

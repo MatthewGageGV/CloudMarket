@@ -424,8 +424,7 @@ class View(App):
             error_popup.open()
             self.error_popup = error_popup
         else:
-            new_item = Item(name, ptime, min_bid, buy_price)
-            self.model.itemlist.addItem(new_item)
+            self.model.itemlist.addItem(Item(name, ptime, min_bid, buy_price))
             self.sellscreen_notif("Item Successfully submitted!")
 
     def wishlist_item(self, item_num):

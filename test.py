@@ -1,7 +1,7 @@
 import unittest
 from user import User
 from item import Item
-from controller import Controller
+from check import Controller
 
 
 class UserTest(unittest.TestCase):

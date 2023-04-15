@@ -15,31 +15,31 @@ from imagebutton import ImageButton
 from sellscreen import SellScreen
 from errorpopup import ErrorPopup
 from popups import Popups
-from wishlist import Wishlist
-from tracklist import TrackList
 from itemlist import ItemList
-from controller import Controller
+from check import Check
+from model import Model
 
-GUI = Builder.load_file("main.kv")
-itemlist = ItemList()
-wishlist = Wishlist()
-tracklist = TrackList()
-default_user = User(1000)
 
 class CloudMarket(App):
     """manages the gui of the program"""
-    curr_item = -1
-    curr_popup = None
-    error_popup = None
-    error_message = None
-    tracklist_active = False
-    wishlist_active = False
 
     def build(self):
         Window.size = (1000, 575)
         Clock.schedule_interval(self.update, 1)
         self.icon = "imgs/WindowIcon.png"
+        GUI = Builder.load_file("main.kv")
         return GUI
+
+    def __init__(self, pmodel):
+        self.model = pmodel
+        self.curr_item = -1
+        self.curr_item = -1
+        self.curr_popup = None
+        self.error_popup = None
+        self.error_message = None
+        self.tracklist_active = False
+        self.wishlist_active = False
+        super().__init__()
 
     def change_screen(self, screen_name):
         """changes the active screen"""
@@ -76,10 +76,10 @@ class CloudMarket(App):
         self.root.ids.sell_screen.ids.dropdown.dismiss()
         # name, time, price, buy_price
         item_ids = self.root.ids.buy_screen.ids
-        for i in range(itemlist.getLength()):
+        for i in range(self.model.itemlist.getLength()):
             item = getattr(item_ids, "item_name_" + str(i + 1))
-            item.text = itemlist.getItem(i).name
-            temp_time = itemlist.getItem(i).time
+            item.text = self.model.itemlist.getItem(i).name
+            temp_time = self.model.itemlist.getItem(i).time
             temp = datetime.min + timedelta(minutes=temp_time)
             timer = time(temp.hour, temp.minute)
             item.disabled = False
@@ -89,11 +89,11 @@ class CloudMarket(App):
             item.disabled = False
             item.opacity = 1
             item = getattr(item_ids, "item_price_" + str(i + 1))
-            item.text = "${:.2f}".format(itemlist.getItem(i).price)
+            item.text = "${:.2f}".format(self.model.itemlist.getItem(i).price)
             item.disabled = False
             item.opacity = 1
             item = getattr(item_ids, "item_buy_" + str(i + 1))
-            item.text = "${:.2f}".format(itemlist.getItem(i).buy_price)
+            item.text = "${:.2f}".format(self.model.itemlist.getItem(i).buy_price)
             item.disabled = False
             item.opacity = 1
             item = getattr(item_ids, "bid_button_" + str(i + 1))
@@ -102,7 +102,7 @@ class CloudMarket(App):
             item = getattr(item_ids, "buy_button_" + str(i + 1))
             item.disabled = False
             item.opacity = 1
-        for i in range(itemlist.getLength(), 9):
+        for i in range(self.model.itemlist.getLength(), 9):
             item = getattr(item_ids, "item_name_" + str(i + 1))
             item.opacity = 0
             item.disabled = True
@@ -128,9 +128,9 @@ class CloudMarket(App):
         item_ids = self.root.ids.buy_screen.ids
         if(self.tracklist_active):
             displaylist = []
-            for i in range(itemlist.getLength()):
-                if(itemlist.getItem(i).track):
-                    displaylist.append(itemlist.getItem(i))
+            for i in range(self.model.itemlist.getLength()):
+                if(self.model.itemlist.getItem(i).track):
+                    displaylist.append(self.model.itemlist.getItem(i))
             self.root.ids.buy_screen.ids.bidtracking.opacity = 1
             self.root.ids.buy_screen.ids.wishlisttitle.opacity = 0
             for i in range(len(displaylist)):
@@ -190,9 +190,9 @@ class CloudMarket(App):
                 item.text = timer
         elif(self.wishlist_active):
             displaylist = []
-            for i in range(itemlist.getLength()):
-                if(itemlist.getItem(i).wishlist):
-                    displaylist.append(itemlist.getItem(i))
+            for i in range(self.model.itemlist.getLength()):
+                if(self.model.itemlist.getItem(i).wishlist):
+                    displaylist.append(self.model.itemlist.getItem(i))
             self.root.ids.buy_screen.ids.wishlisttitle.opacity = 1
             self.root.ids.buy_screen.ids.bidtracking.opacity = 0
             for i in range(len(displaylist)):
@@ -253,17 +253,17 @@ class CloudMarket(App):
         else:
             self.root.ids.buy_screen.ids.wishlisttitle.opacity = 0
             self.root.ids.buy_screen.ids.bidtracking.opacity = 0
-            for i in range(itemlist.getLength()):
+            for i in range(self.model.itemlist.getLength()):
                 item = getattr(item_ids, "item_name_" + str(i + 1))
-                item.text = itemlist.getItem(i).name
+                item.text = self.model.itemlist.getItem(i).name
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_price_" + str(i + 1))
-                item.text = "${:.2f}".format(itemlist.getItem(i).price)
+                item.text = "${:.2f}".format(self.model.itemlist.getItem(i).price)
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_buy_" + str(i + 1))
-                item.text = "${:.2f}".format(itemlist.getItem(i).buy_price)
+                item.text = "${:.2f}".format(self.model.itemlist.getItem(i).buy_price)
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_time_" + str(i + 1))
@@ -278,7 +278,7 @@ class CloudMarket(App):
                 item = getattr(item_ids, "wish_button_" + str(i + 1))
                 item.opacity = 1
                 item.disabled = False
-            for i in range(itemlist.getLength(), 9):
+            for i in range(self.model.itemlist.getLength(), 9):
                 item = getattr(item_ids, "item_name_" + str(i + 1))
                 item.opacity = 0
                 item.disabled = True
@@ -300,15 +300,15 @@ class CloudMarket(App):
                 item = getattr(item_ids, "wish_button_" + str(i + 1))
                 item.opacity = 0
                 item.disabled = True
-            for i in range(itemlist.getLength() - 1, -1, -1):
-                seconds = itemlist.getItem(i).time
+            for i in range(self.model.itemlist.getLength() - 1, -1, -1):
+                seconds = self.model.itemlist.getItem(i).time
                 hours = seconds // 3600
                 minutes = (seconds % 3600) // 60
                 timer_seconds = seconds % 60
                 timer = "{:02d}:{:02d}:{:02d}".format(hours, minutes, timer_seconds)
                 item = getattr(item_ids, "item_time_" + str(i + 1))
                 item.text = timer
-            Controller.checkTime(itemlist)
+            Check.checkTime(self.model.itemlist)
 
     def show_popup(self, item_num):
         """shows the popup"""
@@ -323,7 +323,7 @@ class CloudMarket(App):
 
     def submit_bid(self, bid_value):
         """submits the bid"""
-        if Controller.check_string(str(bid_value), "price") == 3:
+        if Check.check_string(str(bid_value), "price") == 3:
             self.error_message = "Prices cannot contain anything" \
                                     "\n         other than numbers"
             show = ErrorPopup()
@@ -334,19 +334,19 @@ class CloudMarket(App):
             error_popup.open()
             self.error_popup = error_popup
             return
-        can_buy = Controller.check_balance(default_user.getBalance(), bid_value)
+        can_buy = Check.check_balance(self.model.default_user.getBalance(), bid_value)
         if can_buy:
             bid_value = Decimal(bid_value)
-            if bid_value > itemlist.getItem(self.curr_item).price:
-                itemlist.getItem(self.curr_item).price = bid_value
-                default_user.setBalance(float(default_user.getBalance()) - float(bid_value))
-                self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(default_user.getBalance())
+            if bid_value > self.model.itemlist.getItem(self.curr_item).price:
+                self.model.itemlist.getItem(self.curr_item).price = bid_value
+                self.model.default_user.setBalance(float(self.model.default_user.getBalance()) - float(bid_value))
+                self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(self.model.default_user.getBalance())
                 self.curr_popup.dismiss()
                 self.buyscreen_notif("Bid submitted!")
-                for i in range(0, itemlist.getLength()):
-                    if(itemlist.getItem(self.curr_item).id == itemlist.getItem(i).id and itemlist.getItem(i).track):
+                for i in range(0, self.model.itemlist.getLength()):
+                    if(self.model.itemlist.getItem(self.curr_item).id == self.model.itemlist.getItem(i).id and self.model.itemlist.getItem(i).track):
                         return
-                itemlist.getItem(self.curr_item).track = True
+                self.model.itemlist.getItem(self.curr_item).track = True
             else:
                 self.error_message = "Bid must be higher than current bid!"
                 show = ErrorPopup()
@@ -369,7 +369,7 @@ class CloudMarket(App):
 
     def submit_item(self, name, ptime, min_bid, buy_price):
         """submits item to item list"""
-        if Controller.check_string(str(name), "name") == 1:
+        if Check.check_string(str(name), "name") == 1:
             self.error_message = "Name cannot contain special\n     characters or numbers"
             show = ErrorPopup()
             error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
@@ -379,7 +379,7 @@ class CloudMarket(App):
             error_popup.open()
             self.error_popup = error_popup
             return
-        if Controller.check_string(str(min_bid), "price") == 3:
+        if Check.check_string(str(min_bid), "price") == 3:
             self.error_message = "Prices cannot contain anything" \
                                     "\n         other than numbers"
             show = ErrorPopup()
@@ -390,7 +390,7 @@ class CloudMarket(App):
             error_popup.open()
             self.error_popup = error_popup
             return
-        if Controller.check_string(str(buy_price), "price") == 3:
+        if Check.check_string(str(buy_price), "price") == 3:
             self.error_message = "Prices cannot contain anything" \
                                     "\n         other than numbers"
             show = ErrorPopup()
@@ -401,7 +401,7 @@ class CloudMarket(App):
             error_popup.open()
             self.error_popup = error_popup
             return
-        if Controller.check_string(str(ptime), "time") == 2:
+        if Check.check_string(str(ptime), "time") == 2:
             self.error_message = "Time is represented by\n      positive integers"
             show = ErrorPopup()
             error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
@@ -414,10 +414,10 @@ class CloudMarket(App):
         ptime = int(ptime)
         min_bid = Decimal(min_bid)
         buy_price = Decimal(buy_price)
-        if itemlist.getLength() >= 9:
+        if self.model.itemlist.getLength() >= 9:
             self.sellscreen_notif("List is currently full")
             return
-        if not Controller.checkPrice(min_bid, buy_price):
+        if not Check.checkPrice(min_bid, buy_price):
             self.error_message = "Starting bid must be less than buy price."
             show = ErrorPopup()
             error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
@@ -428,24 +428,24 @@ class CloudMarket(App):
             self.error_popup = error_popup
         else:
             new_item = Item(name, ptime, min_bid, buy_price)
-            itemlist.addItem(new_item)
+            self.model.itemlist.addItem(new_item)
             self.sellscreen_notif("Item Successfully submitted!")
 
     def wishlist_item(self, item_num):
         """adds item to wishlist"""
-        if(itemlist.getItem(item_num).wishlist):
-            itemlist.getItem(item_num).removeFromWishlist()
-            self.buyscreen_notif(itemlist.getItem(item_num).name + " removed from wishlist!")
+        if(self.model.itemlist.getItem(item_num).wishlist):
+            self.model.itemlist.getItem(item_num).removeFromWishlist()
+            self.buyscreen_notif(self.model.itemlist.getItem(item_num).name + " removed from wishlist!")
             return
-        itemlist.getItem(item_num).addToWishlist()
-        self.buyscreen_notif(itemlist.getItem(item_num).name + " Wishlisted!")
+        self.model.itemlist.getItem(item_num).addToWishlist()
+        self.buyscreen_notif(self.model.itemlist.getItem(item_num).name + " Wishlisted!")
 
     def buy_item(self, item_num):
         """Check if the user can buy items"""
         # If they can buy
-        item = itemlist.getItem(item_num)
-        if Controller.buyItem(item_num, default_user, itemlist):
-            self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(default_user.getBalance())
+        item = self.model.itemlist.getItem(item_num)
+        if Check.buyItem(item_num, self.model.default_user, self.model.itemlist):
+            self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(self.model.default_user.getBalance())
             self.buyscreen_notif("Bought " + item.name + "!")
         else:
             self.buyscreen_notif("Not enough funds in account!")
@@ -466,9 +466,9 @@ class CloudMarket(App):
         item_ids = self.root.ids.buy_screen.ids
         if(self.tracklist_active):
             displaylist = []
-            for i in range(itemlist.getLength()):
-                if(itemlist.getItem(i).track):
-                    displaylist.append(itemlist.getItem(i))
+            for i in range(self.model.itemlist.getLength()):
+                if(self.model.itemlist.getItem(i).track):
+                    displaylist.append(self.model.itemlist.getItem(i))
             self.root.ids.buy_screen.ids.bidtracking.opacity = 1
             self.root.ids.buy_screen.ids.wishlisttitle.opacity = 0
             for i in range(len(displaylist)):
@@ -528,9 +528,9 @@ class CloudMarket(App):
                 item.text = timer
         elif(self.wishlist_active):
             displaylist = []
-            for i in range(itemlist.getLength()):
-                if(itemlist.getItem(i).wishlist):
-                    displaylist.append(itemlist.getItem(i))
+            for i in range(self.model.itemlist.getLength()):
+                if(self.model.itemlist.getItem(i).wishlist):
+                    displaylist.append(self.model.itemlist.getItem(i))
             self.root.ids.buy_screen.ids.wishlisttitle.opacity = 1
             self.root.ids.buy_screen.ids.bidtracking.opacity = 0
             for i in range(len(displaylist)):
@@ -591,17 +591,17 @@ class CloudMarket(App):
         else:
             self.root.ids.buy_screen.ids.wishlisttitle.opacity = 0
             self.root.ids.buy_screen.ids.bidtracking.opacity = 0
-            for i in range(itemlist.getLength()):
+            for i in range(self.model.itemlist.getLength()):
                 item = getattr(item_ids, "item_name_" + str(i + 1))
-                item.text = itemlist.getItem(i).name
+                item.text = self.model.itemlist.getItem(i).name
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_price_" + str(i + 1))
-                item.text = "${:.2f}".format(itemlist.getItem(i).price)
+                item.text = "${:.2f}".format(self.model.itemlist.getItem(i).price)
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_buy_" + str(i + 1))
-                item.text = "${:.2f}".format(itemlist.getItem(i).buy_price)
+                item.text = "${:.2f}".format(self.model.itemlist.getItem(i).buy_price)
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_time_" + str(i + 1))
@@ -616,7 +616,7 @@ class CloudMarket(App):
                 item = getattr(item_ids, "wish_button_" + str(i + 1))
                 item.opacity = 1
                 item.disabled = False
-            for i in range(itemlist.getLength(), 9):
+            for i in range(self.model.itemlist.getLength(), 9):
                 item = getattr(item_ids, "item_name_" + str(i + 1))
                 item.opacity = 0
                 item.disabled = True
@@ -638,8 +638,8 @@ class CloudMarket(App):
                 item = getattr(item_ids, "wish_button_" + str(i + 1))
                 item.opacity = 0
                 item.disabled = True
-            for i in range(itemlist.getLength() - 1, -1, -1):
-                seconds = itemlist.getItem(i).time
+            for i in range(self.model.itemlist.getLength() - 1, -1, -1):
+                seconds = self.model.itemlist.getItem(i).time
                 hours = seconds // 3600
                 minutes = (seconds % 3600) // 60
                 timer_seconds = seconds % 60
@@ -671,12 +671,12 @@ class CloudMarket(App):
 
     def get_money(self, value):
         """handles the get money button"""
-        default_user.setBalance(default_user.getBalance() + float(value))
-        self.root.ids.buy_screen.ids.balance_label.text = default_user.formatBalance()
+        self.model.default_user.setBalance(self.model.default_user.getBalance() + float(value))
+        self.root.ids.buy_screen.ids.balance_label.text = self.model.default_user.formatBalance()
 
     def get_price(self):
         """returns current items price as dollar format"""
-        return itemlist.getItemPrice(self.curr_item)
+        return self.model.itemlist.getItemPrice(self.curr_item)
 
     def get_error(self):
         """gets the current error message"""

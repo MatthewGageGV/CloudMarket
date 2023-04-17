@@ -289,14 +289,14 @@ class View(App):
                 item = getattr(item_ids, "wish_button_" + str(i + 1))
                 item.opacity = 0
                 item.disabled = True
-        for i in range(self.model.itemlist.getLength() - 1, -1, -1):
-            seconds = self.model.itemlist.getItem(i).time
-            hours = seconds // 3600
-            minutes = (seconds % 3600) // 60
-            timer_seconds = seconds % 60
-            timer = "{:02d}:{:02d}:{:02d}".format(hours, minutes, timer_seconds)
-            item = getattr(item_ids, "item_time_" + str(i + 1))
-            item.text = timer
+            for i in range(self.model.itemlist.getLength() - 1, -1, -1):
+                seconds = self.model.itemlist.getItem(i).time
+                hours = seconds // 3600
+                minutes = (seconds % 3600) // 60
+                timer_seconds = seconds % 60
+                timer = "{:02d}:{:02d}:{:02d}".format(hours, minutes, timer_seconds)
+                item = getattr(item_ids, "item_time_" + str(i + 1))
+                item.text = timer
         Check.checkTime(self.model.itemlist)
 
     def show_popup(self, item_num):

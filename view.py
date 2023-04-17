@@ -21,10 +21,10 @@ class View(App):
     """manages the gui of the program"""
 
     def build(self):
+        GUI = Builder.load_file("main.kv")
         Window.size = (1000, 575)
         Clock.schedule_interval(self.update, 1)
         self.icon = "imgs/WindowIcon.png"
-        GUI = Builder.load_file("main.kv")
         return GUI
 
     def __init__(self, pmodel):
@@ -49,20 +49,12 @@ class View(App):
             curr = 2
         elif screen_manager.current == 'sell_screen':
             curr = 3
-        elif screen_manager.current == 'track_screen':
-            curr = 4
-        elif screen_manager.current == 'wish_screen':
-            curr = 5
         if screen_name == 'home_screen':
             next_screen = 1
         elif screen_name == 'buy_screen':
             next_screen = 2
         elif screen_name == 'sell_screen':
             next_screen = 3
-        elif screen_name == 'track_screen':
-            next_screen = 4
-        elif screen_name == 'wish_screen':
-            next_screen = 5
         if next_screen > curr:
             screen_manager.transition.direction = 'left'
         else:

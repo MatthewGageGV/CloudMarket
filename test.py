@@ -11,6 +11,15 @@ from buyscreen import BuyScreen
 from homescreen import HomeScreen
 from imagebutton import ImageButton
 from sellscreen import SellScreen
+from view import View
+from kivy.app import App
+from kivy.lang import Builder
+from kivy.clock import Clock
+from kivy.core.window import Window
+from kivy.uix.popup import Popup
+from kivy.animation import Animation
+from kivy.uix.label import Label
+import main
 
 class testUser(unittest.TestCase):
     def testUser(self):
@@ -35,7 +44,6 @@ class testWishlist(unittest.TestCase):
         temp.removeFromWishlist()
         self.assertEqual(temp.wishlist, False)
 
-
 class testItemList(unittest.TestCase):
     def testItemList(self):
         temp = ItemList()
@@ -52,7 +60,6 @@ class testItemList(unittest.TestCase):
         result = temp.getItem(0).track
         self.assertEqual(result, False)
 
-
 class testGetItemByID(unittest.TestCase):
     def testGetItemByID(self):
         temp = ItemList()
@@ -60,7 +67,6 @@ class testGetItemByID(unittest.TestCase):
         temp.addItem(tempItem)
         self.assertEqual(tempItem.id, temp.getItemByID(tempItem.id).id)
         self.assertEqual(temp.getItemByID("awpoeijf"), None)
-
 
 class testRemoveItem(unittest.TestCase):
     def testRemoveItem(self):
@@ -80,13 +86,11 @@ class testItemListLength(unittest.TestCase):
         temp = ItemList()
         self.assertEqual(temp.getLength(), 5)
 
-
 class testFormatBalance(unittest.TestCase):
     def testFormatBalance(self):
         temp = User(3000)
         temp = temp.formatBalance()
         self.assertEqual(temp, "$3000.00")
-
 
 class testSetBalance(unittest.TestCase):
     def testSetBalance(self):
@@ -115,8 +119,6 @@ class testCheckString(unittest.TestCase):
         self.assertEquals(Check.check_string("200", "price"), 0)
         self.assertEquals(Check.check_string("200", "prices"), 0)
 
-        
-
 class testCheckBalance(unittest.TestCase):
     def testCheckBalance(self):
         self.assertEquals(Check.check_balance(100.00, 150.00), False)
@@ -142,6 +144,34 @@ class testCheckTime(unittest.TestCase):
         itemlist.addItem(item)
         Check.checkTime(itemlist)
         self.assertNotIn(item, itemlist.list)
+
+class testView(unittest.TestCase):
+    def testView(self):
+        model = Model()
+        view = View(model)
+        view.run()
+        model.itemlist.getItem(0).track = True
+        model.itemlist.getItem(0).addToWishlist()
+        view.curr_item = 0
+        view.change_screen('buy_screen')
+        current = view.root.ids['screen_manager'].current
+        self.assertEquals('buy_screen', current)
+        view.change_screen('sell_screen')
+        current = view.root.ids['screen_manager'].current
+        self.assertEquals('sell_screen', current)
+        view.change_screen('home_screen')
+        current = view.root.ids['screen_manager'].current
+        self.assertEquals('home_screen', current)
+        view.switchlist("tracklist")
+        self.assertEquals(view.tracklist_active, True)
+        self.assertEquals(view.wishlist_active, False)
+        view.update(0)
+        view.switchlist("wishlist")
+        self.assertEquals(view.wishlist_active, True)
+        self.assertEquals(view.tracklist_active, False)
+        view.update(0)
+        view.show_popup(1)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -10,8 +10,8 @@
             id: logo
         GridLayout:
             rows: 1
-            pos_hint: {"top": .425, "left": 1}
-            size_hint: 1, .3
+            pos_hint: {"top": .425, "x": .02}
+            size_hint: .95, .3
             ImageButton:
                 source: "imgs/BuyButton.png"
                 on_press:
@@ -43,7 +43,6 @@
                     self.source = "imgs/WishButton.png"
                     app.switchlist("wishlist")
                     app.change_screen("buy_screen")
-
         GridLayout:
             rows:1
             pos_hint: {"top": .9, "left": 1}

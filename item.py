@@ -1,3 +1,4 @@
+"""this class represents the item object"""
 import uuid
 
 class Item:
@@ -12,7 +13,9 @@ class Item:
         self.track = False
 
     def addToWishlist(self):
+        """adds the entered item to the wishlist"""
         self.wishlist = True
 
     def removeFromWishlist(self):
+        """removes the entered item from the wishlist"""
         self.wishlist = False

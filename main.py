@@ -2,6 +2,6 @@
 from view import View
 from model import Model
 
-#-MAIN-------------------------------------------
+# -MAIN-------------------------------------------
 model = Model()
 View(model).run()

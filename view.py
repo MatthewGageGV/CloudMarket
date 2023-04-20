@@ -1,3 +1,5 @@
+"""manages the gui of the application."""
+
 from datetime import datetime, timedelta, time
 from decimal import Decimal
 from kivy.app import App
@@ -78,11 +80,11 @@ class View(App):
             item.disabled = False
             item.opacity = 1
             item = getattr(item_ids, "item_price_" + str(i + 1))
-            item.text = "${:.2f}".format(self.model.itemlist.getItem(i).price)
+            item.text = f"${self.model.itemlist.getItem(i).price:.2f}"
             item.disabled = False
             item.opacity = 1
             item = getattr(item_ids, "item_buy_" + str(i + 1))
-            item.text = "${:.2f}".format(self.model.itemlist.getItem(i).buy_price)
+            item.text = f"${self.model.itemlist.getItem(i).buy_price:.2f}"
             item.disabled = False
             item.opacity = 1
             item = getattr(item_ids, "bid_button_" + str(i + 1))
@@ -115,10 +117,10 @@ class View(App):
     def update(self, dt):
         """tasks which are executed every second"""
         item_ids = self.root.ids.buy_screen.ids
-        if(self.tracklist_active):
+        if self.tracklist_active:
             displaylist = []
             for i in range(self.model.itemlist.getLength()):
-                if(self.model.itemlist.getItem(i).track):
+                if self.model.itemlist.getItem(i).track:
                     displaylist.append(self.model.itemlist.getItem(i))
             self.root.ids.buy_screen.ids.bidtracking.opacity = 1
             self.root.ids.buy_screen.ids.wishlisttitle.opacity = 0
@@ -128,11 +130,11 @@ class View(App):
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_price_" + str(i + 1))
-                item.text = "${:.2f}".format(displaylist[i].price)
+                item.text = f"${displaylist[i].price:.2f}"
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_buy_" + str(i + 1))
-                item.text = "${:.2f}".format(displaylist[i].buy_price)
+                item.text = f"${displaylist[i].buy_price:.2f}"
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_time_" + str(i + 1))
@@ -174,13 +176,13 @@ class View(App):
                 hours = seconds // 3600
                 minutes = (seconds % 3600) // 60
                 timer_seconds = seconds % 60
-                timer = "{:02d}:{:02d}:{:02d}".format(hours, minutes, timer_seconds)
+                timer = f"{hours:02d}:{minutes:02d}:{timer_seconds:02d}"
                 item = getattr(item_ids, "item_time_" + str(i + 1))
                 item.text = timer
-        elif(self.wishlist_active):
+        elif self.wishlist_active:
             displaylist = []
             for i in range(self.model.itemlist.getLength()):
-                if(self.model.itemlist.getItem(i).wishlist):
+                if self.model.itemlist.getItem(i).wishlist:
                     displaylist.append(self.model.itemlist.getItem(i))
             self.root.ids.buy_screen.ids.wishlisttitle.opacity = 1
             self.root.ids.buy_screen.ids.bidtracking.opacity = 0
@@ -190,11 +192,11 @@ class View(App):
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_price_" + str(i + 1))
-                item.text = "${:.2f}".format(displaylist[i].price)
+                item.text = f"${displaylist[i].price:.2f}"
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_buy_" + str(i + 1))
-                item.text = "${:.2f}".format(displaylist[i].buy_price)
+                item.text = f"${displaylist[i].buy_price:.2f}"
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_time_" + str(i + 1))
@@ -236,7 +238,7 @@ class View(App):
                 hours = seconds // 3600
                 minutes = (seconds % 3600) // 60
                 timer_seconds = seconds % 60
-                timer = "{:02d}:{:02d}:{:02d}".format(hours, minutes, timer_seconds)
+                timer = f"{hours:02d}:{minutes:02d}:{timer_seconds:02d}"
                 item = getattr(item_ids, "item_time_" + str(i + 1))
                 item.text = timer
         else:
@@ -248,11 +250,11 @@ class View(App):
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_price_" + str(i + 1))
-                item.text = "${:.2f}".format(self.model.itemlist.getItem(i).price)
+                item.text = f"${self.model.itemlist.getItem(i).price:.2f}"
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_buy_" + str(i + 1))
-                item.text = "${:.2f}".format(self.model.itemlist.getItem(i).buy_price)
+                item.text = f"${self.model.itemlist.getItem(i).buy_price:.2f}"
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_time_" + str(i + 1))
@@ -294,7 +296,7 @@ class View(App):
                 hours = seconds // 3600
                 minutes = (seconds % 3600) // 60
                 timer_seconds = seconds % 60
-                timer = "{:02d}:{:02d}:{:02d}".format(hours, minutes, timer_seconds)
+                timer = f"{hours:02d}:{minutes:02d}:{timer_seconds:02d}"
                 item = getattr(item_ids, "item_time_" + str(i + 1))
                 item.text = timer
         Check.checkTime(self.model.itemlist)
@@ -303,6 +305,7 @@ class View(App):
         """shows the popup"""
         self.curr_item = item_num
         show = Popups()
+        show.ids.popup_label.text = "Current Bid: " + self.get_price()
         popup_window = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
                             background="imgs/PopupBackground.png",
                             size_hint=(None, None), size=(300, 170))
@@ -328,12 +331,16 @@ class View(App):
             bid_value = Decimal(bid_value)
             if bid_value > self.model.itemlist.getItem(self.curr_item).price:
                 self.model.itemlist.getItem(self.curr_item).price = bid_value
-                self.model.default_user.setBalance(float(self.model.default_user.getBalance()) - float(bid_value))
-                self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(self.model.default_user.getBalance())
+                self.model.default_user.\
+                    setBalance(float(self.model.default_user.getBalance()) - float(bid_value))
+                self.root.ids.buy_screen.ids.balance_label.text = \
+                    f"${self.model.default_user.getBalance():.2f}"
                 self.curr_popup.dismiss()
                 self.buyscreen_notif("Bid submitted!")
                 for i in range(0, self.model.itemlist.getLength()):
-                    if(self.model.itemlist.getItem(self.curr_item).id == self.model.itemlist.getItem(i).id and self.model.itemlist.getItem(i).track):
+                    if(self.model.itemlist.getItem(self.curr_item).id == \
+                            self.model.itemlist.getItem(i).id and \
+                            self.model.itemlist.getItem(i).track):
                         return
                 self.model.itemlist.getItem(self.curr_item).track = True
             else:
@@ -345,6 +352,7 @@ class View(App):
                 error_popup.overlay_color = (0, 0, 0, 0)
                 error_popup.open()
                 self.error_popup = error_popup
+                return
         else:
             self.error_message = "Not enough funds in account!"
             show = ErrorPopup()
@@ -354,7 +362,7 @@ class View(App):
             error_popup.overlay_color = (0, 0, 0, 0)
             error_popup.open()
             self.error_popup = error_popup
-            return False
+            return
 
     def submit_item(self, name, ptime, min_bid, buy_price):
         """submits item to item list"""
@@ -369,8 +377,7 @@ class View(App):
             self.error_popup = error_popup
             return
         if Check.check_string(str(min_bid), "price") == 3:
-            self.error_message = "Prices cannot contain anything" \
-                                    "\n         other than numbers"
+            self.error_message = "Prices cannot contain anything\n         other than numbers"
             show = ErrorPopup()
             error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
                                 background="imgs/PopupBackground.png",
@@ -421,9 +428,10 @@ class View(App):
 
     def wishlist_item(self, item_num):
         """adds item to wishlist"""
-        if(self.model.itemlist.getItem(item_num).wishlist):
+        if self.model.itemlist.getItem(item_num).wishlist:
             self.model.itemlist.getItem(item_num).removeFromWishlist()
-            self.buyscreen_notif(self.model.itemlist.getItem(item_num).name + " removed from wishlist!")
+            self.buyscreen_notif(self.model.itemlist.getItem(item_num).name +\
+                                 " removed from wishlist!")
             return
         self.model.itemlist.getItem(item_num).addToWishlist()
         self.buyscreen_notif(self.model.itemlist.getItem(item_num).name + " Wishlisted!")
@@ -433,43 +441,49 @@ class View(App):
         # If they can buy
         item = self.model.itemlist.getItem(item_num)
         if Check.buyItem(item_num, self.model.default_user, self.model.itemlist):
-            self.root.ids.buy_screen.ids.balance_label.text = "${:.2f}".format(self.model.default_user.getBalance())
+            self.root.ids.buy_screen.ids.balance_label.text = \
+                f"${self.model.default_user.getBalance():.2f}"
             self.buyscreen_notif("Bought " + item.name + "!")
         else:
             self.buyscreen_notif("Not enough funds in account!")
 
-    def switchlist(self, list):
-        if(list == "tracklist"):
+    def switchlist(self, plist):
+        """switches the list shown in the gui"""
+        if plist == "tracklist":
             self.tracklist_active = True
             self.wishlist_active = False
-        elif(list == "wishlist"):
+        elif plist == "wishlist":
             self.wishlist_active = True
             self.tracklist_active = False
-        elif(list == "buylist"):
+        elif plist == "buylist":
             self.wishlist_active = False
             self.tracklist_active = False
+        else:
+            return
         self.updateUI()
 
     def updateUI(self):
+        """updates the UI to reflect the model data"""
         item_ids = self.root.ids.buy_screen.ids
-        if(self.tracklist_active):
+        if self.tracklist_active:
             displaylist = []
             for i in range(self.model.itemlist.getLength()):
-                if(self.model.itemlist.getItem(i).track):
+                if self.model.itemlist.getItem(i).track:
                     displaylist.append(self.model.itemlist.getItem(i))
             self.root.ids.buy_screen.ids.bidtracking.opacity = 1
             self.root.ids.buy_screen.ids.wishlisttitle.opacity = 0
+            self.root.ids.buy_screen.ids.buytitle.opacity = 0
             for i in range(len(displaylist)):
                 item = getattr(item_ids, "item_name_" + str(i + 1))
                 item.text = displaylist[i].name
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_price_" + str(i + 1))
-                item.text = "${:.2f}".format(displaylist[i].price)
+                item.text = f"${displaylist[i].price:.2f}"
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_buy_" + str(i + 1))
-                item.text = "${:.2f}".format(displaylist[i].buy_price)
+                item.text = f"${displaylist[i].buy_price:.2f}"
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_time_" + str(i + 1))
@@ -511,27 +525,28 @@ class View(App):
                 hours = seconds // 3600
                 minutes = (seconds % 3600) // 60
                 timer_seconds = seconds % 60
-                timer = "{:02d}:{:02d}:{:02d}".format(hours, minutes, timer_seconds)
+                timer = f"{hours:02d}:{minutes:02d}:{timer_seconds:02d}"
                 item = getattr(item_ids, "item_time_" + str(i + 1))
                 item.text = timer
-        elif(self.wishlist_active):
+        elif self.wishlist_active:
             displaylist = []
             for i in range(self.model.itemlist.getLength()):
-                if(self.model.itemlist.getItem(i).wishlist):
+                if self.model.itemlist.getItem(i).wishlist:
                     displaylist.append(self.model.itemlist.getItem(i))
             self.root.ids.buy_screen.ids.wishlisttitle.opacity = 1
             self.root.ids.buy_screen.ids.bidtracking.opacity = 0
+            self.root.ids.buy_screen.ids.buytitle.opacity = 0
             for i in range(len(displaylist)):
                 item = getattr(item_ids, "item_name_" + str(i + 1))
                 item.text = displaylist[i].name
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_price_" + str(i + 1))
-                item.text = "${:.2f}".format(displaylist[i].price)
+                item.text = f"${displaylist[i].price:.2f}"
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_buy_" + str(i + 1))
-                item.text = "${:.2f}".format(displaylist[i].buy_price)
+                item.text = f"${displaylist[i].buy_price:.2f}"
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_time_" + str(i + 1))
@@ -573,23 +588,24 @@ class View(App):
                 hours = seconds // 3600
                 minutes = (seconds % 3600) // 60
                 timer_seconds = seconds % 60
-                timer = "{:02d}:{:02d}:{:02d}".format(hours, minutes, timer_seconds)
+                timer = f"{hours:02d}:{minutes:02d}:{timer_seconds:02d}"
                 item = getattr(item_ids, "item_time_" + str(i + 1))
                 item.text = timer
         else:
             self.root.ids.buy_screen.ids.wishlisttitle.opacity = 0
             self.root.ids.buy_screen.ids.bidtracking.opacity = 0
+            self.root.ids.buy_screen.ids.buytitle.opacity = 1
             for i in range(self.model.itemlist.getLength()):
                 item = getattr(item_ids, "item_name_" + str(i + 1))
                 item.text = self.model.itemlist.getItem(i).name
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_price_" + str(i + 1))
-                item.text = "${:.2f}".format(self.model.itemlist.getItem(i).price)
+                item.text = f"${self.model.itemlist.getItem(i).price:.2f}"
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_buy_" + str(i + 1))
-                item.text = "${:.2f}".format(self.model.itemlist.getItem(i).buy_price)
+                item.text = f"${self.model.itemlist.getItem(i).buy_price:.2f}"
                 item.opacity = 1
                 item.disabled = False
                 item = getattr(item_ids, "item_time_" + str(i + 1))
@@ -631,7 +647,7 @@ class View(App):
                 hours = seconds // 3600
                 minutes = (seconds % 3600) // 60
                 timer_seconds = seconds % 60
-                timer = "{:02d}:{:02d}:{:02d}".format(hours, minutes, timer_seconds)
+                timer = f"{hours:02d}:{minutes:02d}:{timer_seconds:02d}"
                 item = getattr(item_ids, "item_time_" + str(i + 1))
                 item.text = timer
 

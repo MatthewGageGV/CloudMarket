@@ -7,6 +7,10 @@
             pos_hint: {"bottom": 1, "left": 1}
             size_hint: 1, 1.25
             id: logo
+        Image:
+            source: "imgs/SellItem.png"
+            pos_hint: {'x':.4, 'y':.89}
+            size_hint: .2, .075
         ImageButton:
             pos_hint: {'x':.85, 'y':.04}
             size_hint: .1, .075
@@ -25,10 +29,6 @@
             on_release:
                 self.source = "imgs/SubmitButton.png"
                 app.submit_item(name_input.text, time_input.text, min_input.text, buy_input.text)
-        Label:
-            pos_hint: {'x':.452, 'y':.9}
-            size_hint: .1, .075
-            text: "Item Information"
         Label:
             pos_hint: {'x':.34, 'y':.791}
             size_hint: .1, .075

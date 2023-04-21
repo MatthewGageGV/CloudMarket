@@ -366,6 +366,16 @@ class View(App):
 
     def submit_item(self, name, ptime, min_bid, buy_price):
         """submits item to item list"""
+        if(float(min_bid) < 0 or float(buy_price) < 0):
+            self.error_message = "Prices must be greater than zero."
+            show = ErrorPopup()
+            error_popup = Popup(title="", content=show, separator_color=(0, 0, 0, 0),
+                                background="imgs/PopupBackground.png",
+                                size_hint=(None, None), size=(300, 170))
+            error_popup.overlay_color = (0, 0, 0, .4)
+            error_popup.open()
+            self.error_popup = error_popup
+            return
         if Check.check_string(str(name), "name") == 1:
             self.error_message = "Name cannot contain special\n     characters or numbers"
             show = ErrorPopup()
